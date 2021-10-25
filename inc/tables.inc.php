@@ -1038,9 +1038,9 @@
                 <td>'.$rs['fecha'].'</td> 
                 <td>'.$rs['registro'].'</td>
                 <td>'.$rs['tipo_inspeccion_almacen'].'</td>
-                <td>'.valorRespuesta($rs['respuesta']).'</td>
+                <td>'.valorRespuestaTable($rs['respuesta']).'</td>
                 <td>'.$rs['condicion'].'</td>
-                <td>'.valorCalificacion($rs['calificacion']).'</td>
+                <td>'.valorCalificacionTable($rs['calificacion']).'</td>
                 <td>'.$rs['accion_correctiva'].'</td>
                 <td>'.$rs['usuario_responsable_detalle'].'</td>
                 <td>'.$rs['fecha_cumplimiento'].'</td>
@@ -1065,7 +1065,7 @@
 
 
     
-    function valorRespuesta($respuesta){
+    function valorRespuestaTable($respuesta){
 
         $valor = "";
 
@@ -1079,7 +1079,7 @@
         return $valor;
     }
 
-    function valorCalificacion($calificacion){
+    function valorCalificacionTable($calificacion){
         $valor = "";
 
         if($calificacion == 1 ){

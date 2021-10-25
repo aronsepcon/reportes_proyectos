@@ -2,7 +2,7 @@
 require_once("../inc/tables.inc.php");
 
 $sede = $_GET['sede'];
-$row = repoSeguridad($pdo, $sede);
+$row = getReporteInspeccionAlmacen($pdo, $sede);
 
 ?>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ $row = repoSeguridad($pdo, $sede);
     <link rel="stylesheet" href="../css/style.css?<?php echo constant("VERSION") ?>">
 
     <script src="../js/jquery.js"></script>
-    <script src="../js/seguridad.js?<?php echo constant("VERSION") ?>"></script>
+    <script src="../js/inspeccionAlmacen.js?<?php echo constant("VERSION") ?>"></script>
 
     <title>Reporte de Inspecciones </title>
 </head>
@@ -27,7 +27,7 @@ $row = repoSeguridad($pdo, $sede);
     </div>
     <div class="wrap">
         <div class="headerWrap">
-            <h3>INSPECCIÓN PLANEADA DE SEGURIDAD - <?php echo $_GET['nombre'] ?> </h3>
+            <h3>Inspección de almacen - <?php echo $_GET['nombre'] ?> </h3>
         </div>
         <div class="divsearch">
             <div class="search">
@@ -48,7 +48,7 @@ $row = repoSeguridad($pdo, $sede);
         <div class="search">
             <input type="hidden" name="sede" id="sede" value="<?php echo $_GET['sede'] ?>">
         </div>
-        
+
         <div class="divsearch">
             <div class="search">
                 <label for="fechaInicio">Fecha de inicio</label>
@@ -57,32 +57,33 @@ $row = repoSeguridad($pdo, $sede);
                 <input type="date" id="fechaFin" name="fechaFin">
 
                 <a href="#" id="btnExport">Exportar a Excel</a>
-                <a href="#" id="btnExportMatriz">Exportar Matriz a Excel</a>
             </div>
         </div>
 
 
         <div class="tableWrap">
-            <table id="seguridadTable">
+            <table id="tablaReporte">
                 <thead>
                     <tr>
-                        <th width="20px">ITEM</th>
-                        <th width="140px">PROYECTO</th>
-                        <th width="140px">ÁREA</th>
-                        <th width="140px">UBICAIÓN</th>
-                        <th width="90px">FECHA DE LA INSPECCIÓN </th>
-                        <th width="20px">INSPECCIÓN REALIZADA POR</th>
-                        <th width="20px">TIPO DE INSPECCIÓN</th>
-                        <th width="140px">TIPO OBERVACIÓN</th>
-                        <th width="20px">CONDICIÓN O ACTO SUBESTANDAR</th>
-                        <th width="250px">EVIDENCIA DE LO ENCONTRADO (REGISTRO, IMAGEN O FOTO, OTROS)</th>
-                        <th width="250px">ACCIÓN CORRECTIVA</th>
-                        <th width="20px">CLASIFICACIÓN</th>
-                        <th width="150px">DIAS DE IMPLEMENTACIÓN</th>
-                        <th width="150px">FECHA DE IMPLEMENTACIÓN</th>
-                        <th width="150px">RESPONSABLE DE LA EJECUCIÓN</th>
-                        <th width="180px">EVIDENCIA DE LA ACCIÓN CORRECTIVA IMPLEMENTADA (REGISTRO, IMAGEN O FOTO)</th>
-                        <th width="240px">COMENTARIOS ADICIONALES</th>
+                        <th width="20px">Item</th>
+                        <th width="140px">Tipos inspección</th>
+                        <th width="90px">Sede </th>
+                        <th width="20px">Área</th>
+                        <th width="20px">Lugar de inspección</th>
+                        <th width="250px">Elaborado por</th>
+                        <th width="20px">Responsable del área</th>
+                        <th width="250px">fecha</th>
+                        <th width="20px">resgistro</th>
+                        <th width="150px">Instalación general</th>
+                        <th width="150px">respuesta</th>
+                        <th width="150px">Condición</th>
+                        <th width="180px">Clasificación</th>
+                        <th width="240px">Acción correctiva</th>
+                        <th width="240px">Responsable de la acción</th>
+                        <th width="240px">Fecha de cumplimiento</th>
+                        <th width="240px">Seguimiento</th>
+                        <th width="240px">Evidencia</th>
+
                     </tr>
                 </thead>
                 <tbody>

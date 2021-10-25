@@ -337,6 +337,36 @@
 
     }
 
+    function valorRespuesta($respuesta){
+
+        $valor = "";
+
+        if($respuesta == 1 ){
+            $valor = "Si";
+        }
+        if($respuesta == 2 ){
+            $valor = "No";
+        }
+
+        return $valor;
+    }
+
+    function valorCalificacion($calificacion){
+        $valor = "";
+
+        if($calificacion == 1 ){
+            $valor = "A";
+        }
+        if($calificacion == 2 ){
+            $valor = "B";
+        }
+        if($calificacion == 2 ){
+            $valor = "C";
+        }
+
+        return $valor;
+    }
+
 ?>
 
 

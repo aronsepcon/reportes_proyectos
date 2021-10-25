@@ -179,37 +179,37 @@ if ($rowaffect > 0) {
 
         $evidencia = explode(",", $rs['evidencia']);
 
+        $listaImagenes = '';
+        $listaArchivos = '';
+        $cantidad = 1;
 
         foreach ($evidencia as $elemento) {
+
             if (strlen($elemento) > 0) {
 
-                $objPHPExcel->setActiveSheetIndex()->setCellValue('I'.$fila,constant("URL") . "photos/" .  $elemento);
-                $objPHPExcel->setActiveSheetIndex()->getCell('I' . $fila)->getHyperlink()->setUrl(constant("URL") . "photos/" .  $elemento);
+                if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+                    
+                    $foto = "../../ssma/public/photos/" . $elemento;
+                    
+                    if ($elemento != '' && file_exists($foto)) {
+                        $objPHPExcel->getActiveSheet()->getRowDimension($fila)->setRowHeight(200);
+                        $objDrawing = new PHPExcel_Worksheet_Drawing();
+                        $objDrawing->setOffsetX(1);
+                        $objDrawing->setOffsetY($cantidad);
+                        $objDrawing->setCoordinates('I' . $fila);
+                        $objDrawing->setName($elemento);
+                        $objDrawing->setDescription(constant("URL") . "photos/" . $elemento);
+                        $objDrawing->setPath("../../ssma/public/photos/" . $elemento);
+                        $objDrawing->setHeight(50);
+                        $objDrawing->setHeight(50);
+                        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+
+
+                    }
+                }
+            
             }
-            //$objPHPExcel->setActiveSheetIndex()->setCellValue('I'.$fila,constant("URL") . "photos/" .  $elemento);
-
-
-
-            /*if (strpos($elemento, '.jpg')!== false || strpos($elemento, '.png') !== false) {
-    
-                            $foto = "../../ssma/public/photos/" .  $elemento;
-    
-                            if ( $elemento != '' && file_exists($foto)) {
-                                $objPHPExcel->getActiveSheet()->getRowDimension($fila)->setRowHeight(200);
-                                $objDrawing = new PHPExcel_Worksheet_Drawing();
-                                $objDrawing->setCoordinates('I' . $fila);
-                                $objDrawing->setName( $elemento);
-                                $objDrawing->setDescription(constant("URL") . "photos/" .  $elemento);
-                                $objDrawing->setPath("../../ssma/public/photos/" .  $elemento);
-    
-                                $objDrawing->setHeight(100);
-    
-                                $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-                            }
-                        }
-                        if (strpos($elemento, '.pdf') !== false) {
-                            $objPHPExcel->setActiveSheetIndex()->setCellValue('J'.$fila,constant("URL") . "photos/" .  $elemento);
-                        }*/
+            $cantidad += 50;
         }
 
 

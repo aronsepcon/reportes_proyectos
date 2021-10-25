@@ -51,6 +51,7 @@ $proyectos = proyectos($pdo);
                     <option value="php/riesgos.php">Riesgos Críticos </option>
                     <option value="php/matriz.php">Matriz Mensual </option>
                     <option value="php/ipercNuevo.php">IPERC nuevo</option>
+                    <option value="php/InspeccionAlmacen.php">Inspección almacen</option>
 
                 </select>
 

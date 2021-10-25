@@ -191,7 +191,7 @@ $objDrawing->setOffsetY(5);
 
 //TITULO DEL REPORTE
 $objPHPExcel->getActiveSheet()->mergeCells('D2:O3');
-$objPHPExcel->setActiveSheetIndex()->setCellValue('D2', 'MATRIZ DE REPORTE INSPECCIONES PLANIFICADAS SSMA');
+$objPHPExcel->setActiveSheetIndex()->setCellValue('D2', 'Reporte de Inspección de almacen');
 
 //FECHA Y REVISION DEL DOCUMENTO
 $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(60);
@@ -240,82 +240,62 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(20);
-$objPHPExcel->getActiveSheet()->getColumnDimension('S')->setWidth(20);
-$objPHPExcel->getActiveSheet()->getColumnDimension('T')->setWidth(20);
 
 $objPHPExcel->getActiveSheet()->getRowDimension('8')->setRowHeight(50);
 
 
 // Cabecera del cuerpo
 $objPHPExcel->setActiveSheetIndex()->setCellValue('B8', 'item');
-$objPHPExcel->setActiveSheetIndex()->setCellValue('C8', "Proyecto");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('D8', 'Fecha de la inspección');
-$objPHPExcel->setActiveSheetIndex()->setCellValue('E8', 'Área:');
-$objPHPExcel->setActiveSheetIndex()->setCellValue('F8', 'Ubicación');
-$objPHPExcel->setActiveSheetIndex()->setCellValue('G8', "Inspección realizada por");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('H8', "Tipo de inspección");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('I8', "Condición o Acto subestandar");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('J8', "Descripción del acto u codición subestandra encontrado");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('K8', "Evidencia de lo encontrado \n (Registro,imagen i foto,otros)");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('L8', "Acción correctiva");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('C8', "Tipo de inspección");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('D8', 'Sede');
+$objPHPExcel->setActiveSheetIndex()->setCellValue('E8', 'Área');
+$objPHPExcel->setActiveSheetIndex()->setCellValue('F8', 'Lugar de inspección');
+$objPHPExcel->setActiveSheetIndex()->setCellValue('G8', "Elaborado por");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('H8', "Responsable del área");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('I8', "fecha");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('J8', "Instalación general");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('K8', "Respuesta");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('L8', "Condición");
 $objPHPExcel->setActiveSheetIndex()->setCellValue('M8', "Clasificación");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('N8', "Dias de implementación");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('O8', "Fecha de implementación");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('P8', "Responsable de la ejecución");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('N8', "Acción correctiva");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('O8', "Responsable de la acción");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('P8', "Fecha de cumplimiento");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('Q8', "Seguimiento");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('R8', "Evidencia");
 
-$objPHPExcel->setActiveSheetIndex()->setCellValue('Q8', "Evidencia de la acción correctiva implementada \n  (Registro,imagen i foto,otros)");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('R8', "Estado de la correción");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('S8', "Comentarios finales");
-$objPHPExcel->setActiveSheetIndex()->setCellValue('T8', "Registro");
 
 
 //aca iran los datos de la tabla
 $fila = 9;
 $item = 1;
-$sql = "SELECT
-detseguridad.idreg,
-detseguridad.iddoc,
-IF(detseguridad.tipo = 1 ,'Acto Subestándar','Condicion Subestándar') AS tipoObservacion,
-detseguridad.condicion,
-detseguridad.clasificacion,
-detseguridad.accion AS accion,
-detseguridad.fecha AS fechaCumplimiento,
-detseguridad.seguimiento,
-inspeccion_tipo.nombre AS tipo,
-seguridad.sede,
-seguridad.lugar,
-seguridad.fecha AS fechaInspeccion,
-seguridad.inspeccionado,
-seguridad.responsable,
-seguridad.obser01,
-seguridad.obser02,
-seguridad.obser03,
-seguridad.reg,
-detseguridad.evidencia,
-TIMESTAMPDIFF(DAY, seguridad.fecha , detseguridad.fecha) AS diasImplementacion ,
-proyectos.nombre AS proyecto ,
+$sql = "SELECT     
+tipo_inspeccion,
+idProyecto,
+sede, 
+area,
+lugar_inspeccion,
+usuario,
+usuario_responsable,
+fecha,
+registro,
+id_tipo_inspeccion_almacen,
+tipo_inspeccion_almacen,
+respuesta,
+condicion,
+calificacion,
+accion_correctiva,
+usuario_responsable_detalle,
+fecha_cumplimiento,
+seguimiento,
+evidencia
 
-seguridad.ubicacion,
-area_general.nombre AS area_nombre,
-tipo_observacion.nombre AS  tipo_observacion
-
-
-FROM
-detseguridad
-INNER JOIN seguridad ON detseguridad.iddoc = seguridad.iddoc
-INNER JOIN general AS proyectos ON seguridad.sede = proyectos.cod 
-INNER JOIN area_general ON seguridad.idAreaObservada= area_general.id
-INNER JOIN tipo_observacion ON detseguridad.tipo = tipo_observacion.id
-INNER JOIN inspeccion_tipo ON inspeccion_tipo.id = seguridad.tipo
+FROM view_inspeccion_almacen
 
 WHERE
-proyectos.clase = '00' AND
-seguridad.reg >= '$fecha_inicio'  AND  
-seguridad.reg < DATE_ADD('$fecha_fin',INTERVAL 1 DAY)  AND $sedeSQL
-
-ORDER BY seguridad.reg DESC";
-
-echo $sql;
+respuesta = 2 AND 
+registro >= '$fecha_inicio'  AND  
+registro < DATE_ADD('$fecha_fin',INTERVAL 1 DAY)  AND $sedeSQL
+ORDER BY registro DESC";
 
 
 $statement = $pdo->prepare($sql);
@@ -323,29 +303,29 @@ $statement->execute(array());
 $results = $statement->fetchAll();
 $rowaffect = $statement->rowCount($sql);
 
-//echo $sql;
 
-$clas = ["", "A", "B", "C"];
 
 //salida de datos
 if ($rowaffect > 0) {
     foreach ($results as $rs) {
-        //$tipo = $rs['tipo'] == "1" ? "PLANEADA" : "NO PLANEADA";
+
 
         $objPHPExcel->setActiveSheetIndex()->setCellValue('B' . $fila, $item);
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('C' . $fila, $rs['proyecto']);
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('D' . $fila, date("d/m/Y", strtotime($rs['fechaInspeccion'])));
-
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('E' . $fila, $rs['area_nombre']);
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('F' . $fila, $rs['ubicacion']);
-
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('G' . $fila, strtoupper($rs['inspeccionado']));
-
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('H' . $fila, $rs['tipoObservacion']);
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('I' . $fila, $rs['condicion']);
-
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('J' . $fila, '');
-
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('C' . $fila, $rs['tipo_inspeccion']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('D' . $fila, $rs['sede']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('E' . $fila, $rs['area']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('F' . $fila, $rs['lugar_inspeccion']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('G' . $fila, strtoupper($rs['usuario']));
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('H' . $fila, strtoupper($rs['usuario_responsable']));
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('I' . $fila, date("d/m/Y", strtotime($rs['registro'])));
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('J' . $fila, $rs['tipo_inspeccion_almacen']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('K' . $fila, valorRespuesta($rs['respuesta']));
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('L' . $fila, $rs['condicion']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('M' . $fila, valorCalificacion($rs['calificacion']));
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('N' . $fila, $rs['accion_correctiva']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('O' . $fila, $rs['usuario_responsable_detalle']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('P' . $fila, $rs['fecha_cumplimiento']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('Q' . $fila, $rs['seguimiento']);
 
         $evidencia = explode(",", $rs['evidencia']);
 
@@ -366,7 +346,7 @@ if ($rowaffect > 0) {
                         $objDrawing = new PHPExcel_Worksheet_Drawing();
                         $objDrawing->setOffsetX(1);
                         $objDrawing->setOffsetY($cantidad);
-                        $objDrawing->setCoordinates('K' . $fila);
+                        $objDrawing->setCoordinates('R' . $fila);
                         $objDrawing->setName($elemento);
                         $objDrawing->setDescription(constant("URL") . "photos/" . $elemento);
                         $objDrawing->setPath("../../ssma/public/photos/" . $elemento);
@@ -382,31 +362,6 @@ if ($rowaffect > 0) {
             $cantidad += 50;
         }
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('L' . $fila, $rs['accion']);
-
-
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('M' . $fila, $clas[(int)$rs['clasificacion']]);
-
-        if ($rs['clasificacion'] == "01") {
-
-            $objPHPExcel->getActiveSheet()->getStyle('M' . $fila)->getFill()->applyFromArray($backgroundCellRed);
-        }
-        if ($rs['clasificacion'] == "02") {
-            $objPHPExcel->getActiveSheet()->getStyle('M' . $fila)->getFill()->applyFromArray($backgroundCellYellowLight);
-        }
-
-        if ($rs['clasificacion'] == "03") {
-            $objPHPExcel->getActiveSheet()->getStyle('M' . $fila)->getFill()->applyFromArray($backgroundCellGreen);
-        }
-
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('N' . $fila, $rs['diasImplementacion']);
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('O' . $fila, $rs['fechaCumplimiento']);
-
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('P' . $fila, $rs['responsable']);
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('T' . $fila, $rs['reg']);
-
-
-
         $fila++;
         $item++;
     }
@@ -418,5 +373,5 @@ $objPHPExcel->getActiveSheet()->getStyle('B8:S' . $fila)->applyFromArray($border
 // Renombrar Hoja
 $objPHPExcel->getActiveSheet()->setTitle('Matriz');
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-$objWriter->save('../reports/matrizseguridad.xlsx');
+$objWriter->save('../reports/inspeccionAlmacen.xlsx');
 exit();

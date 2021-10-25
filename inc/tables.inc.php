@@ -782,7 +782,7 @@
             $observado_reincidente=$rs['observado_reincidente'] == '1' ? 'Si' : 'No';
 
 
-            $foto = $rs['foto'] != "" ? '<img src="../../archivos/'.$rs['foto'].'" class="imgRow">' : "";
+            $foto = $rs['foto'] != "" ? '<img src="../../ssma/public/photos/'.$rs['foto'].'" class="imgRow">' : "";
             $salida .= '<tr>
 
             <td>'.$rowaffect.'</td>

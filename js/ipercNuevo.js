@@ -41,7 +41,7 @@ $(function() {
             "json"
         ).always(function() {
             //papa descargar el archivo 
-            var url = "../reports/iperc.xlsx";
+            var url = "../reports/ipercNuevo.xlsx";
             event.preventDefault();
             window.location.href = url;
 
@@ -80,7 +80,7 @@ $(function() {
             "json"
         ).always(function() {
 
-            var url = "../reports/matriziperc.xlsx";
+            var url = "../reports/matrizipercNuevo.xlsx";
             event.preventDefault();
             window.location.href = url;
 

@@ -553,7 +553,7 @@ foreach($results as $rs ){
     // Renombrar Hoja
     $objPHPExcel->getActiveSheet()->setTitle('Reportes de IPERC');
     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-    $objWriter->save('../reports/iperc.xlsx');
+    $objWriter->save('../reports/ipercNuevo.xlsx');
     exit();
 
 

@@ -37,6 +37,7 @@
             'bold' => true,
             'size' => 14,
             'name' => 'Verdana',
+            'wrap' => true
         ));
 
     $TituloTabla = array(
@@ -44,6 +45,7 @@
             'bold' => true,
             'size' => 9,
             'name' => 'Arial',
+            'wrap' => true
         ));
 
     // Crea un nuevo objeto PHPExcel
@@ -307,7 +309,11 @@
     $objPHPExcel->setActiveSheetIndex()->setCellValue('CX5', 'Comentario');
 
 
-    //aca iran los datos de la tabla
+//aca iran los datos de la tabla
+
+
+
+
     $fila = 6;
 
     $query = "SELECT id,
@@ -413,9 +419,15 @@ $statement -> execute(array());
 $results    = $statement ->fetchAll();
 
 
+
+$queryRiesgo = "SELECT id_riesgo_critico,nombre FROM  riesgo_critico_pregunta";
+$statementRiesgo  = $pdo->prepare($queryRiesgo);
+$statementRiesgo->execute(array());
+$listaRiesgosGeneral    = $statementRiesgo->fetchAll();
+
 foreach($results as $rs ){
 
-        $listaRiesgos = listaRiesgosCriticosById($rs['idTipoRiesgo']);
+        $listaRiesgos = listaRiesgosCriticosById($listaRiesgosGeneral,$rs['idTipoRiesgo']);
 
 
         $objPHPExcel->setActiveSheetIndex()->setCellValue('B' . $fila, $rs['id']);
@@ -483,67 +495,67 @@ foreach($results as $rs ){
  
  
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BC' . $fila,  $listaRiesgos[0]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BC' . $fila,  $listaRiesgos[0]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BD' . $fila,  convertirRespuesta($rs['riesgo_critico1']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BE' . $fila,  $rs['comentario_critico1']);
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BF' . $fila,  $listaRiesgos[1]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BF' . $fila,  $listaRiesgos[1]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BG' . $fila,   convertirRespuesta($rs['riesgo_critico2']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BH' . $fila,  $rs['comentario_critico2']);
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BI' . $fila,  $listaRiesgos[2]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BI' . $fila,  $listaRiesgos[2]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BJ' . $fila,   convertirRespuesta($rs['riesgo_critico3']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BK' . $fila,  $rs['comentario_critico3']);
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BL' . $fila,  $listaRiesgos[3]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BL' . $fila,  $listaRiesgos[3]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BM' . $fila,   convertirRespuesta($rs['riesgo_critico4']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BN' . $fila,  $rs['comentario_critico4']);
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BO' . $fila,  $listaRiesgos[4]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BO' . $fila,  $listaRiesgos[4]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BP' . $fila,   convertirRespuesta($rs['riesgo_critico5']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BQ' . $fila,  $rs['comentario_critico5']);
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BR' . $fila,  $listaRiesgos[5]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BR' . $fila,  $listaRiesgos[5]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BS' . $fila,   convertirRespuesta($rs['riesgo_critico6']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BT' . $fila,  $rs['comentario_critico6']);
 
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BU' . $fila,  $listaRiesgos[6]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BU' . $fila,  $listaRiesgos[6]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BV' . $fila,   convertirRespuesta($rs['riesgo_critico7']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BW' . $fila,  $rs['comentario_critico7']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('BX' . $fila,  $listaRiesgos[7]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('BX' . $fila,  $listaRiesgos[7]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BY' . $fila,   convertirRespuesta($rs['riesgo_critico8']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('BZ' . $fila,  $rs['comentario_critico8']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CA' . $fila,  $listaRiesgos[8]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CA' . $fila,  $listaRiesgos[8]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CB' . $fila,   convertirRespuesta($rs['riesgo_critico9']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CC' . $fila,  $rs['comentario_critico9']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CD' . $fila,  $listaRiesgos[9]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CD' . $fila,  $listaRiesgos[9]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CE' . $fila,   convertirRespuesta($rs['riesgo_critico10']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CF' . $fila,  $rs['comentario_critico10']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CG' . $fila,  $listaRiesgos[10]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CG' . $fila,  $listaRiesgos[10]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CH' . $fila,   convertirRespuesta($rs['riesgo_critico11']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CI' . $fila,  $rs['comentario_critico11']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CJ' . $fila,  $listaRiesgos[11]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CJ' . $fila,  $listaRiesgos[11]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CK' . $fila,   convertirRespuesta($rs['riesgo_critico12']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CL' . $fila,  $rs['comentario_critico12']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CM' . $fila,  $listaRiesgos[12]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CM' . $fila,  $listaRiesgos[12]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CN' . $fila,   convertirRespuesta($rs['riesgo_critico13']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CO' . $fila,  $rs['comentario_critico13']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CP' . $fila,  $listaRiesgos[13]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CP' . $fila,  $listaRiesgos[13]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CQ' . $fila,   convertirRespuesta($rs['riesgo_critico14']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CR' . $fila,  $rs['comentario_critico14']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CS' . $fila,  $listaRiesgos[14]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CS' . $fila,  $listaRiesgos[14]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CT' . $fila,   convertirRespuesta($rs['riesgo_critico15']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CU' . $fila,  $rs['comentario_critico15']);
         
-        $objPHPExcel->setActiveSheetIndex()->setCellValue('CV' . $fila,  $listaRiesgos[15]['content']);
+        $objPHPExcel->setActiveSheetIndex()->setCellValue('CV' . $fila,  $listaRiesgos[15]['nombre']);
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CW' . $fila,   convertirRespuesta($rs['riesgo_critico16']));
         $objPHPExcel->setActiveSheetIndex()->setCellValue('CX' . $fila,  $rs['comentario_critico16']);
     

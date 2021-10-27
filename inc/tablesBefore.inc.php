@@ -41,6 +41,10 @@
         case 'inspeccionAlmacen':
             $contenidoOk = consultReporteInspeccionAlmacen($pdo, $mes, $anio,$sede);
             break;
+    
+        case 'inspeccionOficina':
+            $contenidoOk = consultReporteInspeccionOficina($pdo, $mes, $anio,$sede);
+            break;
     }
 
 
@@ -980,6 +984,113 @@ function consultReporteInspeccionAlmacen($pdo,$mes,$anio,$sede){
             <td>'.$rs['fecha'].'</td> 
             <td>'.$rs['registro'].'</td>
             <td>'.$rs['tipo_inspeccion_almacen'].'</td>
+            <td>'.valorRespuesta($rs['respuesta']).'</td>
+            <td>'.$rs['condicion'].'</td>
+            <td>'.valorCalificacion($rs['calificacion']).'</td>
+            <td>'.$rs['accion_correctiva'].'</td>
+            <td>'.$rs['usuario_responsable_detalle'].'</td>
+            <td>'.$rs['fecha_cumplimiento'].'</td>
+            <td>'.$rs['seguimiento'].'</td>
+            <td>'.$listaImagenes.$listaArchivos.'</td>
+            </tr>';
+
+
+            $rowaffect--;
+
+        }
+
+        return $salida;
+
+   
+    }catch(PDOException $e){
+       echo $e->getMessage();
+       return false;
+    }
+
+
+}
+
+
+
+function consultReporteInspeccionOficina($pdo,$mes,$anio,$sede){
+
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "idProyecto <> '$sede'";
+
+    if($sede!= $TODOS_PROYECTOS){
+        $sedeSQL = "idProyecto = '$sede'";
+    }
+
+    try{
+
+        $query = "SELECT     
+        tipo_inspeccion,
+        idProyecto,
+        sede, 
+        area,
+        lugar_inspeccion,
+        usuario,
+        usuario_responsable,
+        fecha,
+        registro,
+        pregunta,
+        respuesta,
+        condicion,
+        calificacion,
+        accion_correctiva,
+        usuario_responsable_detalle,
+        fecha_cumplimiento,
+        seguimiento,
+        evidencia
+        
+        FROM view_inspeccion_oficina
+        WHERE  MONTH(registro) = $mes AND  
+                YEAR(registro) = $anio AND 
+                respuesta = 2 AND 
+                $sedeSQL
+        ORDER BY registro DESC";
+
+        $salida     = "";
+
+        $statement  = $pdo->prepare($query);
+        $statement -> execute(array());
+        $results    = $statement ->fetchAll();
+        $rowaffect 	= $statement->rowCount($query);
+
+        foreach($results as $rs ){
+            
+
+            $evidencia = explode(",", $rs['evidencia']);
+
+            $listaImagenes = '';
+            $listaArchivos = '';
+
+            foreach ($evidencia as $elemento) {
+                if (strlen($elemento) > 0) {
+
+                    if( strpos($elemento, '.pdf') > 0){
+
+                        $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                    }
+                    if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+
+                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                    }
+                
+                }
+            }
+
+            $salida .= '<tr>
+            <td>'.$rowaffect.'</td>
+            <td>'.$rs['tipo_inspeccion'].'</td>
+            <td>'.$rs['sede'].'</td>
+            <td>'.$rs['area'].'</td>
+            <td>'.$rs['lugar_inspeccion'].'</td>
+            <td>'.$rs['usuario'].'</td>
+            <td>'.$rs['usuario_responsable'].'</td>
+            <td>'.$rs['fecha'].'</td> 
+            <td>'.$rs['registro'].'</td>
+            <td>'.$rs['pregunta'].'</td>
             <td>'.valorRespuesta($rs['respuesta']).'</td>
             <td>'.$rs['condicion'].'</td>
             <td>'.valorCalificacion($rs['calificacion']).'</td>

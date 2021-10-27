@@ -52,6 +52,7 @@ $proyectos = proyectos($pdo);
                     <option value="php/matriz.php">Matriz Mensual </option>
                     <option value="php/ipercNuevo.php">IPERC nuevo</option>
                     <option value="php/InspeccionAlmacen.php">Inspección almacen</option>
+                    <option value="php/InspeccionOficina.php">Inspección oficina</option>
 
                 </select>
 

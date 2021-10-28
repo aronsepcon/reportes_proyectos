@@ -53,6 +53,8 @@ $proyectos = proyectos($pdo);
                     <option value="php/ipercNuevo.php">IPERC nuevo</option>
                     <option value="php/InspeccionAlmacen.php">Inspección almacen</option>
                     <option value="php/InspeccionOficina.php">Inspección oficina</option>
+                    <option value="php/InspeccionBotiquin.php">Inspección botiquin</option>
+                    <option value="php/InspeccionEscalera.php">Inspección de escaleras fijas y portátiles </option>
 
                 </select>
 

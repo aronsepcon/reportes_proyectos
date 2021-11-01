@@ -1448,6 +1448,190 @@
 
 
     }
+
+                
+    function getReporteInspeccionEstacionEmergencia($pdo,$sede){
+
+        $TODOS_PROYECTOS = 100;
+        $sedeSQL = "idProyecto <> '$sede'";
+
+        if($sede!= $TODOS_PROYECTOS){
+            $sedeSQL = "idProyecto = '$sede'";
+        }
+
+        try{
+
+            $query = "SELECT     
+            tipo_inspeccion,
+            idProyecto,
+            sede, 
+            area,
+            lugar_inspeccion,
+            estacion,
+            usuario,
+            usuario_responsable,
+            fecha,
+            registro,
+            pregunta,
+            condicion,
+            clasificacion,
+            accion_correctiva,
+            usuario_responsable_detalle,
+            fecha_cumplimiento,
+            seguimiento,
+            evidencia,
+            observacion
+            
+            FROM view_inspeccion_estacion_emergencia
+            WHERE MONTH(registro) = MONTH(now()) AND 
+                    YEAR(registro) = YEAR(now()) AND
+                    $sedeSQL
+                       order by registro desc   ";
+
+            $salida     = "";
+
+            $statement  = $pdo->prepare($query);
+            $statement -> execute(array());
+            $results    = $statement ->fetchAll();
+            $rowaffect 	= $statement->rowCount($query);
+
+            foreach($results as $rs ){
+                
+                
+
+                $evidencia = explode(",", $rs['evidencia']);
+
+                $listaImagenes = '';
+                $listaArchivos = '';
+
+                foreach ($evidencia as $elemento) {
+                    if (strlen($elemento) > 0) {
+
+                        if( strpos($elemento, '.pdf') > 0){
+    
+                            $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                        }
+                        if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+
+                            $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                        }
+                    
+                    }
+                }
+
+                $salida .= '<tr>
+                <td>'.$rowaffect.'</td>
+                <td>'.$rs['tipo_inspeccion'].'</td>
+                <td>'.$rs['sede'].'</td>
+                <td>'.$rs['area'].'</td>
+                <td>'.$rs['lugar_inspeccion'].'</td>
+                <td>'.$rs['estacion'].'</td>
+                <td>'.$rs['usuario'].'</td>
+                <td>'.$rs['usuario_responsable'].'</td>
+                <td>'.$rs['fecha'].'</td> 
+                <td>'.$rs['registro'].'</td>
+                <td>'.$rs['pregunta'].'</td>
+                <td>'.valorCondicionTable($rs['condicion']).'</td>
+                <td>'.valorCalificacionTable($rs['clasificacion']).'</td>
+                <td>'.$rs['accion_correctiva'].'</td>
+                <td>'.$rs['usuario_responsable_detalle'].'</td>
+                <td>'.$rs['fecha_cumplimiento'].'</td>
+                <td>'.$rs['seguimiento'].'</td>
+                <td>'.$rs['observacion'].'</td>
+                <td>'.$listaImagenes.$listaArchivos.'</td>
+                </tr>';
+
+
+                $rowaffect--;
+
+            }
+            return $salida;
+
+       
+        }catch(PDOException $e){
+           echo $e->getMessage();
+           return false;
+        }
+
+
+    }
+
+
+                   
+    function getReporteInspeccionTablero($pdo,$sede){
+
+        $TODOS_PROYECTOS = 100;
+        $sedeSQL = "idProyecto <> '$sede'";
+
+        if($sede!= $TODOS_PROYECTOS){
+            $sedeSQL = "idProyecto = '$sede'";
+        }
+
+        try{
+
+            $query = "SELECT     
+            idProyecto,
+            sede, 
+            area,
+            ubicacion,
+            codigo_tag,
+            aprobado,
+            usuario,
+            descripcion,
+            usuario_responsable,
+            fecha,
+            registro,
+            elemento,
+            aplica,
+            cumple
+            
+            FROM view_inspeccion_tablero
+            WHERE MONTH(registro) = MONTH(now()) AND 
+                    YEAR(registro) = YEAR(now()) AND
+                    $sedeSQL
+                       order by registro desc   ";
+
+            $salida     = "";
+
+            $statement  = $pdo->prepare($query);
+            $statement -> execute(array());
+            $results    = $statement ->fetchAll();
+            $rowaffect 	= $statement->rowCount($query);
+
+            foreach($results as $rs ){
+                
+
+                $salida .= '<tr>
+                <td>'.$rowaffect.'</td>
+                <td>'.$rs['sede'].'</td>
+                <td>'.$rs['area'].'</td>
+                <td>'.$rs['ubicacion'].'</td>
+                <td>'.$rs['codigo_tag'].'</td>
+                <td>'.$rs['aprobado'].'</td>
+                <td>'.$rs['usuario'].'</td>
+                <td>'.$rs['descripcion'].'</td>
+                <td>'.$rs['usuario_responsable'].'</td>
+                <td>'.$rs['fecha'].'</td> 
+                <td>'.$rs['registro'].'</td>
+                <td>'.$rs['elemento'].'</td>
+                <td>'.valorRespuestaTable($rs['aplica']).'</td>
+                <td>'.valorRespuestaTable($rs['cumple']).'</td>
+                </tr>';
+
+
+                $rowaffect--;
+
+            }
+            return $salida;
+
+       
+        }catch(PDOException $e){
+           echo $e->getMessage();
+           return false;
+        }
+
+
+    }
     
     function valorRespuestaTable($respuesta){
 
@@ -1458,6 +1642,9 @@
         }
         if($respuesta == 2 ){
             $valor = "No";
+        }
+        if($respuesta == 0 ){
+            $valor = "NA";
         }
 
         return $valor;
@@ -1472,13 +1659,30 @@
         if($calificacion == 2 ){
             $valor = "B";
         }
-        if($calificacion == 2 ){
+        if($calificacion == 3 ){
             $valor = "C";
         }
 
         return $valor;
     }
 
+
+    
+    function valorCondicionTable($calificacion){
+        $valor = "";
+
+        if($calificacion == 1 ){
+            $valor = "Bueno";
+        }
+        if($calificacion == 2 ){
+            $valor = "Malo";
+        }
+        if($calificacion == 3 ){
+            $valor = "Falta";
+        }
+
+        return $valor;
+    }
 
 
 

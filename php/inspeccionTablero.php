@@ -2,7 +2,7 @@
 require_once("../inc/tables.inc.php");
 
 $sede = $_GET['sede'];
-$row = getReporteInspeccionExtintor($pdo, $sede);
+$row = getReporteInspeccionTablero($pdo, $sede);
 
 ?>
 <!DOCTYPE html>
@@ -16,9 +16,9 @@ $row = getReporteInspeccionExtintor($pdo, $sede);
     <link rel="stylesheet" href="../css/style.css?<?php echo constant("VERSION") ?>">
 
     <script src="../js/jquery.js"></script>
-    <script src="../js/inspeccionExtintor.js?<?php echo constant("VERSION") ?>"></script>
+    <script src="../js/inspeccionTablero.js?<?php echo constant("VERSION") ?>"></script>
 
-    <title>Reporte de Inspección de extintores</title>
+    <title>Reporte de Inspecciones </title>
 </head>
 
 <body>
@@ -27,7 +27,7 @@ $row = getReporteInspeccionExtintor($pdo, $sede);
     </div>
     <div class="wrap">
         <div class="headerWrap">
-            <h3>Inspección de extintores - <?php echo $_GET['nombre'] ?> </h3>
+            <h3>INSPECCIÓN MENSUAL DE TABLEROS ELECTRICOS - <?php echo $_GET['nombre'] ?> </h3>
         </div>
         <div class="divsearch">
             <div class="search">
@@ -66,24 +66,20 @@ $row = getReporteInspeccionExtintor($pdo, $sede);
                 <thead>
                     <tr>
                         <th width="20px">Item</th>
-                        <th width="140px">Tipos inspección</th>
                         <th width="90px">Sede </th>
                         <th width="20px">Área</th>
-                        <th width="20px">Lugar de inspección</th>
-                        <th width="250px">Elaborado por</th>
-                        <th width="20px">Responsable del área</th>
+                        <th width="20px">Ubicación</th>
+                        <th width="250px">Codigo tag</th>
+                        <th width="20px">Aprobado</th>
+                        <th width="200px">Reportado por</th>
+                        <th width="200px">Descripción</th>
+                        <th width="200px">Reponsable</th>
                         <th width="250px">fecha</th>
                         <th width="20px">resgistro</th>
-                        <th width="150px">Ubicación</th>
-                        <th width="150px">Condición</th>
-                        <th width="180px">Clasificación</th>
-                        <th width="240px">Acción correctiva</th>
-                        <th width="240px">Responsable de la acción</th>
-                        <th width="240px">Fecha de cumplimiento</th>
-                        <th width="240px">Seguimiento</th>
-                        <th width="240px">Observación</th>
-                        <th width="240px">Evidencia</th>
 
+                        <th width="150px">Elemento</th>
+                        <th width="150px">Aplica</th>
+                        <th width="150px">Cumple</th>
 
                     </tr>
                 </thead>

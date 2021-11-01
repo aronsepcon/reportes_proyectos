@@ -2,7 +2,7 @@
 require_once("../inc/tables.inc.php");
 
 $sede = $_GET['sede'];
-$row = getReporteInspeccionExtintor($pdo, $sede);
+$row = getReporteInspeccionEstacionEmergencia($pdo, $sede);
 
 ?>
 <!DOCTYPE html>
@@ -16,9 +16,9 @@ $row = getReporteInspeccionExtintor($pdo, $sede);
     <link rel="stylesheet" href="../css/style.css?<?php echo constant("VERSION") ?>">
 
     <script src="../js/jquery.js"></script>
-    <script src="../js/inspeccionExtintor.js?<?php echo constant("VERSION") ?>"></script>
+    <script src="../js/inspeccionEstacionEmergencia.js?<?php echo constant("VERSION") ?>"></script>
 
-    <title>Reporte de Inspección de extintores</title>
+    <title>Reporte de Inspección de estación de emergencia</title>
 </head>
 
 <body>
@@ -27,7 +27,7 @@ $row = getReporteInspeccionExtintor($pdo, $sede);
     </div>
     <div class="wrap">
         <div class="headerWrap">
-            <h3>Inspección de extintores - <?php echo $_GET['nombre'] ?> </h3>
+            <h3>Inspección de estación de emergencia - <?php echo $_GET['nombre'] ?> </h3>
         </div>
         <div class="divsearch">
             <div class="search">
@@ -70,20 +70,20 @@ $row = getReporteInspeccionExtintor($pdo, $sede);
                         <th width="90px">Sede </th>
                         <th width="20px">Área</th>
                         <th width="20px">Lugar de inspección</th>
+                        <th width="20px">Estación</th>
                         <th width="250px">Elaborado por</th>
                         <th width="20px">Responsable del área</th>
                         <th width="250px">fecha</th>
                         <th width="20px">resgistro</th>
-                        <th width="150px">Ubicación</th>
+                        <th width="150px">Descripción</th>
                         <th width="150px">Condición</th>
                         <th width="180px">Clasificación</th>
                         <th width="240px">Acción correctiva</th>
                         <th width="240px">Responsable de la acción</th>
                         <th width="240px">Fecha de cumplimiento</th>
                         <th width="240px">Seguimiento</th>
-                        <th width="240px">Observación</th>
+                        <th width="240px">Observacion</th>
                         <th width="240px">Evidencia</th>
-
 
                     </tr>
                 </thead>

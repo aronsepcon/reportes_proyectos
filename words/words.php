@@ -225,6 +225,9 @@
         if($respuesta == 2 ){
             $valor = "No";
         }
+        if($respuesta == 0 ){
+            $valor = "NA";
+        }
 
         return $valor;
     }
@@ -238,13 +241,29 @@
         if($calificacion == 2 ){
             $valor = "B";
         }
-        if($calificacion == 2 ){
+        if($calificacion == 3 ){
             $valor = "C";
         }
 
         return $valor;
     }
 
+
+    function valorCondicion($calificacion){
+        $valor = "";
+
+        if($calificacion == 1 ){
+            $valor = "Bueno";
+        }
+        if($calificacion == 2 ){
+            $valor = "Malo";
+        }
+        if($calificacion == 3 ){
+            $valor = "Falta";
+        }
+
+        return $valor;
+    }
 ?>
 
 

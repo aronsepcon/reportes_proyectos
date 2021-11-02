@@ -225,7 +225,7 @@
         if($respuesta == 2 ){
             $valor = "No";
         }
-        if($respuesta == 0 ){
+        if($respuesta == 0  || $respuesta == 3){
             $valor = "NA";
         }
 

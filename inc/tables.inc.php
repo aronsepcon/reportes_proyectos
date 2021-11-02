@@ -1632,7 +1632,219 @@
 
 
     }
+
+    function getReporteInspeccionTaller($pdo,$sede){
+
+        $TODOS_PROYECTOS = 100;
+        $sedeSQL = "idProyecto <> '$sede'";
+
+        if($sede!= $TODOS_PROYECTOS){
+            $sedeSQL = "idProyecto = '$sede'";
+        }
+
+        try{
+
+            $query = "SELECT     
+        idProyecto,
+        sede,
+        area,
+        lugar,
+        usuario,
+        usuario_responsable,
+        fecha,
+        registro,
+        elemento,
+        calificacion,
+        observacion
+            
+            FROM view_inspeccion_taller
+            WHERE MONTH(registro) = MONTH(now()) AND 
+                    YEAR(registro) = YEAR(now()) AND
+                    $sedeSQL
+                       order by registro desc   ";
+
+            $salida     = "";
+
+            $statement  = $pdo->prepare($query);
+            $statement -> execute(array());
+            $results    = $statement ->fetchAll();
+            $rowaffect 	= $statement->rowCount($query);
+
+            foreach($results as $rs ){
+                
+
+                $salida .= '<tr>
+                <td>'.$rowaffect.'</td>
+                <td>'.$rs['sede'].'</td>
+                <td>'.$rs['area'].'</td>
+                <td>'.$rs['lugar'].'</td>
+                <td>'.$rs['usuario'].'</td>
+                <td>'.$rs['usuario_responsable'].'</td>
+                <td>'.$rs['fecha'].'</td> 
+                <td>'.$rs['registro'].'</td>
+                <td>'.$rs['elemento'].'</td>
+                <td>'.$rs['calificacion'].'</td>
+                <td>'.$rs['observacion'].'</td>
+                </tr>';
+
+
+                $rowaffect--;
+
+            }
+            return $salida;
+
+       
+        }catch(PDOException $e){
+           echo $e->getMessage();
+           return false;
+        }
+
+
+    }
     
+
+    function getReporteGasComprimido($pdo,$sede){
+
+        $TODOS_PROYECTOS = 100;
+        $sedeSQL = "idProyecto <> '$sede'";
+
+        if($sede!= $TODOS_PROYECTOS){
+            $sedeSQL = "idProyecto = '$sede'";
+        }
+
+        try{
+
+            $query = "SELECT     
+        idProyecto,
+        sede,
+        area,
+        lugar,
+        empresa,
+        usuario,
+        usuario_responsable,
+        fecha,
+        registro,
+        elemento,
+        respuesta,
+        observacion
+            
+            FROM view_gas_comprimido
+            WHERE MONTH(registro) = MONTH(now()) AND 
+                    YEAR(registro) = YEAR(now()) AND
+                    $sedeSQL
+                       order by registro desc   ";
+
+            $salida     = "";
+
+            $statement  = $pdo->prepare($query);
+            $statement -> execute(array());
+            $results    = $statement ->fetchAll();
+            $rowaffect 	= $statement->rowCount($query);
+
+            foreach($results as $rs ){
+                
+
+                $salida .= '<tr>
+                <td>'.$rowaffect.'</td>
+                <td>'.$rs['sede'].'</td>
+                <td>'.$rs['area'].'</td>
+                <td>'.$rs['lugar'].'</td>
+                <td>'.$rs['empresa'].'</td>
+                <td>'.$rs['usuario'].'</td>
+                <td>'.$rs['usuario_responsable'].'</td>
+                <td>'.$rs['fecha'].'</td> 
+                <td>'.$rs['registro'].'</td>
+                <td>'.$rs['elemento'].'</td>
+                <td>'.valorRespuestaTable($rs['respuesta']).'</td>
+                <td>'.$rs['observacion'].'</td>
+                </tr>';
+
+
+                $rowaffect--;
+
+            }
+            return $salida;
+
+       
+        }catch(PDOException $e){
+           echo $e->getMessage();
+           return false;
+        }
+
+
+    }
+
+    function getReporteProductoQuimico($pdo,$sede){
+
+        $TODOS_PROYECTOS = 100;
+        $sedeSQL = "idProyecto <> '$sede'";
+
+        if($sede!= $TODOS_PROYECTOS){
+            $sedeSQL = "idProyecto = '$sede'";
+        }
+
+        try{
+
+            $query = "SELECT     
+                idProyecto,
+                sede,
+                area,
+                ubicacion,
+                usuario,
+                usuario_responsable,
+                fecha,
+                registro,
+                elemento,
+                almacen_producto,
+                pit_hidrocarburo,
+                observacion
+            
+            FROM view_producto_quimico
+            WHERE MONTH(registro) = MONTH(now()) AND 
+                    YEAR(registro) = YEAR(now()) AND
+                    $sedeSQL
+                       order by registro desc   ";
+
+            $salida     = "";
+
+            $statement  = $pdo->prepare($query);
+            $statement -> execute(array());
+            $results    = $statement ->fetchAll();
+            $rowaffect 	= $statement->rowCount($query);
+
+            foreach($results as $rs ){
+                
+
+                $salida .= '<tr>
+                <td>'.$rowaffect.'</td>
+                <td>'.$rs['sede'].'</td>
+                <td>'.$rs['area'].'</td>
+                <td>'.$rs['ubicacion'].'</td>
+                <td>'.$rs['usuario'].'</td>
+                <td>'.$rs['usuario_responsable'].'</td>
+                <td>'.$rs['fecha'].'</td> 
+                <td>'.$rs['registro'].'</td>
+                <td>'.$rs['elemento'].'</td>
+                <td>'.$rs['almacen_producto'].'</td>
+                <td>'.$rs['pit_hidrocarburo'].'</td>
+                <td>'.$rs['observacion'].'</td>
+                </tr>';
+
+
+                $rowaffect--;
+
+            }
+            return $salida;
+
+       
+        }catch(PDOException $e){
+           echo $e->getMessage();
+           return false;
+        }
+
+
+    }
+
     function valorRespuestaTable($respuesta){
 
         $valor = "";
@@ -1643,7 +1855,7 @@
         if($respuesta == 2 ){
             $valor = "No";
         }
-        if($respuesta == 0 ){
+        if($respuesta == 0 || $respuesta == 3){
             $valor = "NA";
         }
 

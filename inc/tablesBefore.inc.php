@@ -1,79 +1,88 @@
 <?php
-    require_once("mysql_conector.inc.php");
-    require_once("constantes.inc.php");
-    require_once "../words/words.php";
+require_once("mysql_conector.inc.php");
+require_once("constantes.inc.php");
+require_once "../words/words.php";
 
-    $respuestaOK = true;
-    $contenidoOk = "No hay error";
-    $Error = "";
+$respuestaOK = true;
+$contenidoOk = "No hay error";
+$Error = "";
 
-    $sede   = $_POST['sede'];
-    $mes    = $_POST['me'];
-    $anio   = $_POST['an'];
-    $doc    = $_POST['doc'];
+$sede   = $_POST['sede'];
+$mes    = $_POST['me'];
+$anio   = $_POST['an'];
+$doc    = $_POST['doc'];
 
-    switch ($doc) {
-        case 'tops':
-            $contenidoOk = consulTops($pdo,$mes,$anio);
-            break;
-        case 'seguridad':
-            $contenidoOk = consultSafety($pdo,$mes,$anio,$sede);
-            break;
-        case 'incidencias':
-            $contenidoOk = consultIncidency($pdo,$mes,$anio,$sede);
-            break;
-        case 'iperc':
-            $contenidoOk = consultIperc($pdo,$mes,$anio,$sede);
-            break;
-        case 'opt':
-            $contenidoOk = consultOpt($pdo, $mes, $anio,$sede);
-            break;  
+switch ($doc) {
+    case 'tops':
+        $contenidoOk = consulTops($pdo, $mes, $anio);
+        break;
+    case 'seguridad':
+        $contenidoOk = consultSafety($pdo, $mes, $anio, $sede);
+        break;
+    case 'incidencias':
+        $contenidoOk = consultIncidency($pdo, $mes, $anio, $sede);
+        break;
+    case 'iperc':
+        $contenidoOk = consultIperc($pdo, $mes, $anio, $sede);
+        break;
+    case 'opt':
+        $contenidoOk = consultOpt($pdo, $mes, $anio, $sede);
+        break;
 
-        case 'riesgos':
-            $contenidoOk = consultRiesgos($pdo, $mes, $anio,$sede);
-            break; 
-        case 'topsNuevo':
-            $contenidoOk = consultTopsNuevo($pdo, $mes, $anio,$sede);
-            break;
-        case 'ipercNuevo':
-            $contenidoOk = consultIpercNuevo($pdo, $mes, $anio,$sede);
-            break;
-        case 'inspeccionAlmacen':
-            $contenidoOk = consultReporteInspeccionAlmacen($pdo, $mes, $anio,$sede);
-            break;
-    
-        case 'inspeccionOficina':
-            $contenidoOk = consultReporteInspeccionOficina($pdo, $mes, $anio,$sede);
-            break;
+    case 'riesgos':
+        $contenidoOk = consultRiesgos($pdo, $mes, $anio, $sede);
+        break;
+    case 'topsNuevo':
+        $contenidoOk = consultTopsNuevo($pdo, $mes, $anio, $sede);
+        break;
+    case 'ipercNuevo':
+        $contenidoOk = consultIpercNuevo($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionAlmacen':
+        $contenidoOk = consultReporteInspeccionAlmacen($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionOficina':
+        $contenidoOk = consultReporteInspeccionOficina($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionBotiquin':
+        $contenidoOk = consultReporteInspeccionBotiquin($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionEscalera':
+        $contenidoOk = consultReporteInspeccionEscalera($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionEscalera':
+        $contenidoOk = consultReporteInspeccionExtintor($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionEstacionEmergencia':
+        $contenidoOk = consultReporteInspeccionEstacionEmergencia($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionTablero':
+        $contenidoOk = consultReporteInspeccionTablero($pdo, $mes, $anio, $sede);
+        break;
+    case 'inspeccionTaller':
+        $contenidoOk = consultReporteInspeccionTaller($pdo, $mes, $anio, $sede);
+        break;
+    case 'gasComprimido':
+        $contenidoOk = consultReporteGasComprimido($pdo, $mes, $anio, $sede);
+        break;
+    case 'productoQuimico':
+        $contenidoOk = consultReporteProductoQuimico($pdo, $mes, $anio, $sede);
+        break;
+}
 
-        case 'inspeccionBotiquin':
-            $contenidoOk = consultReporteInspeccionBotiquin($pdo, $mes, $anio,$sede);
-            break;
-        case 'inspeccionEscalera':
-            $contenidoOk = consultReporteInspeccionEscalera($pdo, $mes, $anio,$sede);
-            break;
-        case 'inspeccionEscalera':
-            $contenidoOk = consultReporteInspeccionExtintor($pdo, $mes, $anio,$sede);
-            break;
-    
-        case 'inspeccionEstacionEmergencia':
-            $contenidoOk = consultReporteInspeccionEstacionEmergencia($pdo, $mes, $anio,$sede);
-            break;
-        case 'inspeccionTablero':
-            $contenidoOk = consultReporteInspeccionTablero($pdo,$mes,$anio,$sede);
-            break;
-    }
+
+$salidaJson = array(
+    "respuesta" => $respuestaOK,
+    "error"     => $Error,
+    "contenido" => $contenidoOk
+);
+
+echo json_encode($salidaJson);
 
 
-    $salidaJson = array("respuesta" => $respuestaOK,
-					    "error"     => $Error,
-					    "contenido" => $contenidoOk);
-
-    echo json_encode($salidaJson);
-    
-
-    function consultIncidency($pdo,$mes,$anio,$sede){
-        /*$query = "SELECT
+function consultIncidency($pdo, $mes, $anio, $sede)
+{
+    /*$query = "SELECT
             incidencias.iddoc,
             incidencias.proyecto,
             incidencias.cliente,
@@ -89,14 +98,14 @@
         MONTH(reg) = $mes AND
         YEAR(reg) = $anio";*/
 
-        $TODOS_PROYECTOS = 100;
-        $sedeSQL = "proyecto <> '$sede'";
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "proyecto <> '$sede'";
 
-        if($sede!= $TODOS_PROYECTOS){
-            $sedeSQL = "proyecto = '$sede'";
-        }
+    if ($sede != $TODOS_PROYECTOS) {
+        $sedeSQL = "proyecto = '$sede'";
+    }
 
-        $query = "SELECT
+    $query = "SELECT
         incidencias.iddoc,
         incidencias.proyecto,
         incidencias.cliente,
@@ -115,49 +124,50 @@
         MONTH(incidencias.fecha) = $mes AND
         YEAR(incidencias.fecha) = $anio AND 
         proyectos.clase = 00 AND $sedeSQL order by incidencias.fecha desc";
-        
 
-        $statement 	= $pdo->prepare($query);
-        $statement -> execute(array());
-        $results 	= $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
-        $salida 	= "";
-        $item = 1;
 
-        if($rowaffect > 0) {
-            foreach ($results as $rs) {
-                
-                $salida .= '<tr>
-                                <td>'.$item.'</td>
-                                <td>'.$rs['nombreProyecto'].'</td>
-                                <td>'.$rs['cliente'].'</td>
-                                <td>'.$rs['lugar'].'</td>
-                                <td class="center">'.date("d/m/Y", strtotime($rs['fecha'])).'</td>
-                                <td class="center">'.$rs['hora'].'</td>
-                                <td>'.$rs['descripcion'].'</td>
-                                <td>'.$rs['elaborado'].'</td>
-                                <td class="center"><a href="'.$rs['iddoc'].'"><i class="fas fa-file-pdf"></i></a></td> 
+    $statement     = $pdo->prepare($query);
+    $statement->execute(array());
+    $results     = $statement->fetchAll();
+    $rowaffect     = $statement->rowCount($query);
+    $salida     = "";
+    $item = 1;
+
+    if ($rowaffect > 0) {
+        foreach ($results as $rs) {
+
+            $salida .= '<tr>
+                                <td>' . $item . '</td>
+                                <td>' . $rs['nombreProyecto'] . '</td>
+                                <td>' . $rs['cliente'] . '</td>
+                                <td>' . $rs['lugar'] . '</td>
+                                <td class="center">' . date("d/m/Y", strtotime($rs['fecha'])) . '</td>
+                                <td class="center">' . $rs['hora'] . '</td>
+                                <td>' . $rs['descripcion'] . '</td>
+                                <td>' . $rs['elaborado'] . '</td>
+                                <td class="center"><a href="' . $rs['iddoc'] . '"><i class="fas fa-file-pdf"></i></a></td> 
                             </tr>';
-                $item++;
-            }
-        }else{
-            $salida = '<tr><td colspan="22" class="center"><h2>No hay registros para mostrar</h2></td></tr>';
+            $item++;
         }
-
-        return $salida;
+    } else {
+        $salida = '<tr><td colspan="22" class="center"><h2>No hay registros para mostrar</h2></td></tr>';
     }
 
+    return $salida;
+}
 
-    function consultSafety($pdo,$mes,$anio,$sede) {
 
-        $TODOS_PROYECTOS = 100;
-        $sedeSQL = "sede <> '$sede'";
-    
-        if($sede!= $TODOS_PROYECTOS){
-            $sedeSQL = "sede = '$sede'";
-        }
+function consultSafety($pdo, $mes, $anio, $sede)
+{
 
-        $query = "SELECT
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "sede <> '$sede'";
+
+    if ($sede != $TODOS_PROYECTOS) {
+        $sedeSQL = "sede = '$sede'";
+    }
+
+    $query = "SELECT
                     detseguridad.idreg,
                     detseguridad.iddoc,
                     detseguridad.condicion,
@@ -195,21 +205,21 @@
                     proyectos.clase = '00' AND
                     MONTH(seguridad.fecha) = $mes AND
                     YEAR(seguridad.fecha) = $anio AND $sedeSQL ORDER BY seguridad.fecha DESC";
-        $statement 	= $pdo->prepare($query);
-        $statement -> execute(array());
-        $results 	= $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
-        $salida 	= "";
+    $statement     = $pdo->prepare($query);
+    $statement->execute(array());
+    $results     = $statement->fetchAll();
+    $rowaffect     = $statement->rowCount($query);
+    $salida     = "";
 
 
-        $clas = ["","A","B","C"];
-        $item = 1;
+    $clas = ["", "A", "B", "C"];
+    $item = 1;
 
-        if($rowaffect > 0) {
-            foreach ($results as $rs) {
-                
+    if ($rowaffect > 0) {
+        foreach ($results as $rs) {
 
-                
+
+
             $evidencia = explode(",", $rs['evidencia']);
 
             $evidencia = explode(",", $rs['evidencia']);
@@ -220,55 +230,55 @@
             foreach ($evidencia as $elemento) {
                 if (strlen($elemento) > 0) {
 
-                    if( strpos($elemento, '.pdf') > 0){
+                    if (strpos($elemento, '.pdf') > 0) {
 
-                        $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                        $listaArchivos .= ('<a href="' . CONSTANT('URL') . $elemento . '"> <br>');
                     }
-                    if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+                    if (strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0) {
 
-                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/' . $elemento . '"><br>');
                     }
-                
                 }
             }
 
-                $salida .= '<tr>
+            $salida .= '<tr>
                                 
-                                 <td>'.$rowaffect.'</td>
-                            <td>'.$rs['proyecto'].'</td>
+                                 <td>' . $rowaffect . '</td>
+                            <td>' . $rs['proyecto'] . '</td>
                             
-                            <td>'.$rs['area_nombre'].'</td>
-                            <td>'.$rs['ubicacion'].'</td>
+                            <td>' . $rs['area_nombre'] . '</td>
+                            <td>' . $rs['ubicacion'] . '</td>
 
-                            <td class="center">'.date("d/m/Y", strtotime($rs['fechaInspeccion'])).'</td>
-                            <td>'.strtoupper($rs['inspeccionado']).'</td>
-                            <td>'.$rs['tipo'].'</td>
+                            <td class="center">' . date("d/m/Y", strtotime($rs['fechaInspeccion'])) . '</td>
+                            <td>' . strtoupper($rs['inspeccionado']) . '</td>
+                            <td>' . $rs['tipo'] . '</td>
                             
-                            <td>'.$rs['tipo_observacion'].'</td>
+                            <td>' . $rs['tipo_observacion'] . '</td>
 
-                            <td>'.$rs['condicion'].'</td>
-                            <td>'.$listaArchivos.$listaImagenes.'</td>
-                            <td>'.$rs['accion'].'</td>
-                            <td class="center">'.$clas[(int)$rs['clasificacion']].'</td>
-                            <td>'.$rs['seguimiento'].'</td>
-                            <td>'.date("d/m/Y", strtotime($rs['fecha'])).'</td>
-                            <td>'.strtoupper($rs['responsable']).'</td>
+                            <td>' . $rs['condicion'] . '</td>
+                            <td>' . $listaArchivos . $listaImagenes . '</td>
+                            <td>' . $rs['accion'] . '</td>
+                            <td class="center">' . $clas[(int)$rs['clasificacion']] . '</td>
+                            <td>' . $rs['seguimiento'] . '</td>
+                            <td>' . date("d/m/Y", strtotime($rs['fecha'])) . '</td>
+                            <td>' . strtoupper($rs['responsable']) . '</td>
                             <td></td>
                             <td></td>
 
                             </tr>';
-                $rowaffect--;
-            }
-        }else{
-            $salida = '<tr><td colspan="22" class="center"><h2>No hay registros para mostrar</h2></td></tr>';
+            $rowaffect--;
         }
-
-        return $salida;
+    } else {
+        $salida = '<tr><td colspan="22" class="center"><h2>No hay registros para mostrar</h2></td></tr>';
     }
 
+    return $salida;
+}
 
-    function consulTops($pdo,$mes,$anio){
-        $query = "SELECT
+
+function consulTops($pdo, $mes, $anio)
+{
+    $query = "SELECT
                         tops.idtop,
                         tops.lugar,
                         tops.reportado,
@@ -298,107 +308,107 @@
                         ORDER BY
                         tops.reg DESC";
 
-                $statement 	= $pdo->prepare($query);
-                $statement -> execute(array());
-                $results 	= $statement ->fetchAll();
-                $rowaffect 	= $statement->rowCount($query);
-                $salida 	= "";
+    $statement     = $pdo->prepare($query);
+    $statement->execute(array());
+    $results     = $statement->fetchAll();
+    $rowaffect     = $statement->rowCount($query);
+    $salida     = "";
 
-                $sede  = master($pdo,"00");
-                $obser = master($pdo,"01");
-                $relac = master($pdo,"02");
+    $sede  = master($pdo, "00");
+    $obser = master($pdo, "01");
+    $relac = master($pdo, "02");
 
-                $actins =  master($pdo,"06");
-                $conins =  master($pdo,"07");
-                $acseg  =  master($pdo,"08");
+    $actins =  master($pdo, "06");
+    $conins =  master($pdo, "07");
+    $acseg  =  master($pdo, "08");
 
-                $tipo = master($pdo,"03");
-                $condicion = master($pdo,"04");
-                $potencial = master($pdo,"05");
-                $area = master($pdo,"09");
+    $tipo = master($pdo, "03");
+    $condicion = master($pdo, "04");
+    $potencial = master($pdo, "05");
+    $area = master($pdo, "09");
 
-                if($rowaffect > 0) {
-                    foreach ($results as $rs) {
+    if ($rowaffect > 0) {
+        foreach ($results as $rs) {
 
-                        $rel = $rs['relacion'] != "00" ? $relac[(int)$rs['relacion']] : "OTROS";
-                        $tip = $rs['tipepp'] != "00" ? $tipo[(int)$rs['tipepp']] : "";
-                        $con = $rs['conepp'] != "00" ? $condicion[(int)$rs['conepp']] : "";
-                        $pot = $rs['potencial'] != "00" ? $potencial[(int)$rs['potencial']] : "";
-                        $are = $rs['area'] != "00" ? $area[(int)$rs['area']] : "";
+            $rel = $rs['relacion'] != "00" ? $relac[(int)$rs['relacion']] : "OTROS";
+            $tip = $rs['tipepp'] != "00" ? $tipo[(int)$rs['tipepp']] : "";
+            $con = $rs['conepp'] != "00" ? $condicion[(int)$rs['conepp']] : "";
+            $pot = $rs['potencial'] != "00" ? $potencial[(int)$rs['potencial']] : "";
+            $are = $rs['area'] != "00" ? $area[(int)$rs['area']] : "";
 
-                        if ( $rs['actins'] != "00" ) {
-                            $des = $actins[(int)$rs['actins']];
-                        }elseif( $rs['conins'] != "00" ) {
-                            $des = $conins[(int)$rs['conins']];
-                        }elseif( $rs['actseg'] != "00" ){
-                            $des = $acseg[(int)$rs['actseg']];
-                        }
-                        else{
-                            $des = "";
-                        }
+            if ($rs['actins'] != "00") {
+                $des = $actins[(int)$rs['actins']];
+            } elseif ($rs['conins'] != "00") {
+                $des = $conins[(int)$rs['conins']];
+            } elseif ($rs['actseg'] != "00") {
+                $des = $acseg[(int)$rs['actseg']];
+            } else {
+                $des = "";
+            }
 
-                        $foto = $rs['foto'] != "" ? '<img src="'.constant("URL")."photos/".$rs['foto'].'" class="imgRow">' : "";
-                        $salida .= '<tr>
-                                        <td>'.$sede[(int)$rs['sede']].'</td>
+            $foto = $rs['foto'] != "" ? '<img src="' . constant("URL") . "photos/" . $rs['foto'] . '" class="imgRow">' : "";
+            $salida .= '<tr>
+                                        <td>' . $sede[(int)$rs['sede']] . '</td>
                                         <td></td>
-                                        <td>'.date("d/m/Y", strtotime($rs['fecha'])).'</td>
-                                        <td class="center">'.$obser[(int)$rs['observacion']].'</td>
-                                        <td>'.$des.'</td>
+                                        <td>' . date("d/m/Y", strtotime($rs['fecha'])) . '</td>
+                                        <td class="center">' . $obser[(int)$rs['observacion']] . '</td>
+                                        <td>' . $des . '</td>
                                         <td></td>
-                                        <td>'.$rs['reportado'].'</td>
-                                        <td>'.$rs['descripcion'].'</td>
-                                        <td>'.$rel.'</td>
-                                        <td>'.$tip.'</td>
-                                        <td>'.$con.'</td>
-                                        <td>'.$pot.'</td>
+                                        <td>' . $rs['reportado'] . '</td>
+                                        <td>' . $rs['descripcion'] . '</td>
+                                        <td>' . $rel . '</td>
+                                        <td>' . $tip . '</td>
+                                        <td>' . $con . '</td>
+                                        <td>' . $pot . '</td>
                                         <td></td>
-                                        <td class="center">'.$foto.'</td>
-                                        <td>'.$rs['medidas'].'</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td class="center">' . $foto . '</td>
+                                        <td>' . $rs['medidas'] . '</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>'.$rs['otros'].'</td>
-                                        <td>'.$are.'</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>' . $rs['otros'] . '</td>
+                                        <td>' . $are . '</td>
                                     </tr>';
-                    }
-                }else{
-                    $salida = '<tr><td colspan="22" class="center"><h2>No hay registros para mostrar</h2></td></tr>';
-                }
+        }
+    } else {
+        $salida = '<tr><td colspan="22" class="center"><h2>No hay registros para mostrar</h2></td></tr>';
+    }
 
-                return $salida;
-    };
+    return $salida;
+};
 
-    function master($pdo,$clase) {
-        $query = "SELECT
+function master($pdo, $clase)
+{
+    $query = "SELECT
                     general.nombre
                     FROM
                     general
                     WHERE
                     general.clase = '$clase'";
 
-        $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect  = $statement->rowCount($query);
-        $salida     = []; 
+    $statement  = $pdo->prepare($query);
+    $statement->execute(array());
+    $results    = $statement->fetchAll();
+    $rowaffect  = $statement->rowCount($query);
+    $salida     = [];
 
-        foreach ($results as $rs ) {
-            # code...
-            array_push($salida, $rs['nombre']);
-        }
-
-        return $salida;
+    foreach ($results as $rs) {
+        # code...
+        array_push($salida, $rs['nombre']);
     }
 
-    function consultIperc($pdo, $mes, $anio,$sede)
+    return $salida;
+}
+
+function consultIperc($pdo, $mes, $anio, $sede)
 {
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = " idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = " idProyecto = '$sede'";
     }
 
@@ -529,7 +539,7 @@
             $rs['riesgo_manos1'] . '&' .
             $rs['riesgo_manos2'] . '&' .
             $rs['riesgo_manos3'] . '&' .
-           
+
             $rs['riesgo_covid2'] . '&' .
             $rs['riesgo_covid3'] . '&' .
             $rs['riesgo_covid4'] . '&' .
@@ -556,19 +566,18 @@
 
 
                     </tr>';
-
     }
 
     return $salida;
-
 }
 
-function consultOpt($pdo, $mes, $anio,$sede){
-        
+function consultOpt($pdo, $mes, $anio, $sede)
+{
+
     $TODOS_PROYECTOS = 100;
     $sedeSQL = " idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = " idProyecto = '$sede'";
     }
 
@@ -596,39 +605,39 @@ function consultOpt($pdo, $mes, $anio,$sede){
         riesgoCritico,
         petLog
     FROM view_opt WHERE MONTH(registro) = $mes AND YEAR(registro) = $anio AND $sedeSQL ORDER BY registro desc ";
-   
-   $salida  = "";
 
-   $statement  = $pdo->prepare($query);
-   $statement -> execute(array());
-   $results    = $statement ->fetchAll();
-   $rowaffect = $statement->rowCount($query);
+    $salida  = "";
 
-   foreach($results as $rs ){
-      
+    $statement  = $pdo->prepare($query);
+    $statement->execute(array());
+    $results    = $statement->fetchAll();
+    $rowaffect = $statement->rowCount($query);
+
+    foreach ($results as $rs) {
+
 
         $salida .= '<tr>
 
-                        <td>'.$rowaffect.'</td>
-                        <td>'.$rs['usuario_nombres'].$rs['usuario_apellidos'].'</td>
-                        <td>'.$rs['proyecto_nombre'].'</td>
-                        <td>'.$rs['area_nombre'].'</td>
-                        <td>'.$rs['ubicacion'].'</td>
-                        <td>'.$rs['area_observada_nombre'].'</td>
-                        <td>'.$rs['tiempo_proyecto'].'</td>
+                        <td>' . $rowaffect . '</td>
+                        <td>' . $rs['usuario_nombres'] . $rs['usuario_apellidos'] . '</td>
+                        <td>' . $rs['proyecto_nombre'] . '</td>
+                        <td>' . $rs['area_nombre'] . '</td>
+                        <td>' . $rs['ubicacion'] . '</td>
+                        <td>' . $rs['area_observada_nombre'] . '</td>
+                        <td>' . $rs['tiempo_proyecto'] . '</td>
                 
-                        <td>'.$rs['registro'].'</td>
-                        <td>'.$rs['nombre'].'</td>
-                        <td>'.$rs['tiempo_trabajo'].'</td>
-                        <td>'.$rs['guardia'].'</td>
-                        <td>'.$rs['ocupacion'].'</td>
-                        <td>'.$rs['tarea'].'</td>
-                        <td>'.$rs['responsable'].'</td>
-                        <td>'.$rs['riesgoCritico'].'</td>
-                        <td>'.$rs['petLog'].'</td>
-                        <td>'.$rs['razon_opt'].'</td>
-                        <td>'.$rs['oportunidades'].'</td>
-                        <td>'.$rs['firma_gerente'].'</td>
+                        <td>' . $rs['registro'] . '</td>
+                        <td>' . $rs['nombre'] . '</td>
+                        <td>' . $rs['tiempo_trabajo'] . '</td>
+                        <td>' . $rs['guardia'] . '</td>
+                        <td>' . $rs['ocupacion'] . '</td>
+                        <td>' . $rs['tarea'] . '</td>
+                        <td>' . $rs['responsable'] . '</td>
+                        <td>' . $rs['riesgoCritico'] . '</td>
+                        <td>' . $rs['petLog'] . '</td>
+                        <td>' . $rs['razon_opt'] . '</td>
+                        <td>' . $rs['oportunidades'] . '</td>
+                        <td>' . $rs['firma_gerente'] . '</td>
                        
                                 
 
@@ -638,18 +647,19 @@ function consultOpt($pdo, $mes, $anio,$sede){
 
                     </tr>';
 
-                    $rowaffect--;
+        $rowaffect--;
     }
 
     return $salida;
 }
 
-function consultRiesgos($pdo,$mes,$anio,$sede){
+function consultRiesgos($pdo, $mes, $anio, $sede)
+{
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
@@ -673,50 +683,51 @@ function consultRiesgos($pdo,$mes,$anio,$sede){
     registro
 
     FROM view_documento_riesgo  WHERE MONTH(fecha) = $mes AND YEAR(fecha) = $anio  AND $sedeSQL ORDER BY fecha desc ";
-   
-   $salida  = "";
 
-   $statement  = $pdo->prepare($query);
-   $statement -> execute(array());
-   $results    = $statement ->fetchAll();
-   $rowaffect = $statement->rowCount($query);
+    $salida  = "";
 
-   foreach($results as $rs ){
-      
-   
+    $statement  = $pdo->prepare($query);
+    $statement->execute(array());
+    $results    = $statement->fetchAll();
+    $rowaffect = $statement->rowCount($query);
+
+    foreach ($results as $rs) {
+
+
         $salida .= '<tr>
 
-                        <td>'.$rowaffect.'</td>
-                        <td>'.$rs['usuario_nombres'].$rs['usuario_apellidos'].'</td>
-                        <td>'.$rs['proyecto_nombre'].'</td>
-                        <td>'.$rs['area_nombre'].'</td>
-                        <td>'.$rs['ubicacion'].'</td>
-                        <td>'.$rs['area_observada_nombre'].'</td>
-                        <td>'.$rs['tarea_auditada'].'</td>
-                        <td>'.$rs['lider_auditoria'].'</td>
-                        <td>'.$rs['participantes'].'</td>
-                        <td>'.$rs['empresa'].'</td>
-                        <td>'.$rs['fecha'].'</td>
-                        <td>'.$rs['fortalezas_acciones'].'</td>
-                        <td>'.$rs['fecha_cumplimiento'].'</td>
-                        <td>'.$rs['responsable'].'</td>
+                        <td>' . $rowaffect . '</td>
+                        <td>' . $rs['usuario_nombres'] . $rs['usuario_apellidos'] . '</td>
+                        <td>' . $rs['proyecto_nombre'] . '</td>
+                        <td>' . $rs['area_nombre'] . '</td>
+                        <td>' . $rs['ubicacion'] . '</td>
+                        <td>' . $rs['area_observada_nombre'] . '</td>
+                        <td>' . $rs['tarea_auditada'] . '</td>
+                        <td>' . $rs['lider_auditoria'] . '</td>
+                        <td>' . $rs['participantes'] . '</td>
+                        <td>' . $rs['empresa'] . '</td>
+                        <td>' . $rs['fecha'] . '</td>
+                        <td>' . $rs['fortalezas_acciones'] . '</td>
+                        <td>' . $rs['fecha_cumplimiento'] . '</td>
+                        <td>' . $rs['responsable'] . '</td>
 
                                                       
                     </tr>';
-        
-                    $rowaffect--;
+
+        $rowaffect--;
     }
 
     return $salida;
 }
 
-function consultTopsNuevo($pdo, $mes, $anio,$sede) {
+function consultTopsNuevo($pdo, $mes, $anio, $sede)
+{
 
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "sede <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "sede = '$sede'";
     }
 
@@ -764,27 +775,27 @@ function consultTopsNuevo($pdo, $mes, $anio,$sede) {
                     view_tops.reg DESC";
 
     $statement  = $pdo->prepare($query);
-    $statement -> execute(array());
-    $results    = $statement ->fetchAll();
+    $statement->execute(array());
+    $results    = $statement->fetchAll();
     $rowaffect  = $statement->rowCount($query);
 
     $salida     = " ";
 
-    $sede  = master($pdo,"00");
-    
-    
-    $obser = master($pdo,"01");
-    $relac = master($pdo,"02");
+    $sede  = master($pdo, "00");
 
-    $actins =  master($pdo,"06");
-    $conins =  master($pdo,"07");
-    $acseg  =  master($pdo,"08");
 
-    $tipo = master($pdo,"03");
-    $condicion = master($pdo,"04");
-    $potencial = master($pdo,"05");
-    $area = master($pdo,"09");
-    $idRow=1;
+    $obser = master($pdo, "01");
+    $relac = master($pdo, "02");
+
+    $actins =  master($pdo, "06");
+    $conins =  master($pdo, "07");
+    $acseg  =  master($pdo, "08");
+
+    $tipo = master($pdo, "03");
+    $condicion = master($pdo, "04");
+    $potencial = master($pdo, "05");
+    $area = master($pdo, "09");
+    $idRow = 1;
 
     foreach ($results as $rs) {
         $rel = $rs['relacion'] != "00" ? $relac[(int)$rs['relacion']] : "OTROS";
@@ -794,56 +805,56 @@ function consultTopsNuevo($pdo, $mes, $anio,$sede) {
         $area_text = $rs['area'] != "00" ? $area[(int)$rs['area']] : "";
 
         $observacion_detalle = "";
-        if ( $rs['actins'] != "00" ) {
+        if ($rs['actins'] != "00") {
 
             $observacion_detalle =  $actins[(int)$rs['actins']];
-        }elseif( $rs['conins'] != "00" ) {
+        } elseif ($rs['conins'] != "00") {
 
             $observacion_detalle =  $conins[(int)$rs['conins']];
-        }elseif( $rs['actseg'] != "00" ){
+        } elseif ($rs['actseg'] != "00") {
 
             $observacion_detalle =  $acseg[(int)$rs['actseg']];
         }
 
-        $observado_cambio=$rs['observado_cambio'] == '1' ? 'Si' : 'No';
-        $observado_retroalimentacion=$rs['observado_retroalimentacion'] == '1' ? 'Si' : 'No';
-        $observado_reincidente=$rs['observado_reincidente'] == '1' ? 'Si' : 'No';
+        $observado_cambio = $rs['observado_cambio'] == '1' ? 'Si' : 'No';
+        $observado_retroalimentacion = $rs['observado_retroalimentacion'] == '1' ? 'Si' : 'No';
+        $observado_reincidente = $rs['observado_reincidente'] == '1' ? 'Si' : 'No';
 
-        $foto = $rs['foto'] != "" ? '<img src="'.constant("URL_PHOTO")."photos/".$rs['foto'].'" class="imgRow">' : "";
+        $foto = $rs['foto'] != "" ? '<img src="' . constant("URL_PHOTO") . "photos/" . $rs['foto'] . '" class="imgRow">' : "";
         $salida .= '<tr>
 
-        <td>'.$rowaffect.'</td>
-        <td>'.$rs['reportado'].'</td>
-        <td>'.$sede[(int)$rs['sede']].'</td>
-        <td>'.$rs['area_nombre'].'</td>
-        <td>'.$rs['observado_lugar'].'</td>
-        <td>'.$area_text.'</td>
-        <td>'.$rs['observado_puesto'].'</td>
-        <td>'.$rs['tiempo_proyecto'].'</td>
-        <td>'.$rs['horario_observacion'].'</td>
-        <td>'.$rs['rango_edad'].'</td>
-        <td>'.date("d/m/Y", strtotime($rs['fecha'])).'</td>
-        <td>'.date("d/m/Y", strtotime($rs['reg'])).'</td>
-        <td class="center">'.getObservacion($rs['observacion']).'</td>
-        <td>'.$observacion_detalle.'</td>    
-        <td>'.$rel.'</td>
-        <td>'.$rs['otros'].'</td>
-        <td>'.$tip.'</td>
-        <td>'.$con.'</td>
-        <td>'.$rs['descripcion'].'</td>
-        <td>'.$rs['medidas'].'</td>
-        <td>'.$pot.'</td>
-        <td class="center">'.$foto.'</td>
-        <td>'.$rs['lesion'].'</td>
-        <td>'.$rs['obstaculo'].'</td>
-        <td>'.$observado_cambio.'</td>
-        <td>'.$observado_retroalimentacion.'</td>
-        <td>'.$observado_reincidente.'</td>
-        <td>'.$rs['observado_comentario'].'</td>
+        <td>' . $rowaffect . '</td>
+        <td>' . $rs['reportado'] . '</td>
+        <td>' . $sede[(int)$rs['sede']] . '</td>
+        <td>' . $rs['area_nombre'] . '</td>
+        <td>' . $rs['observado_lugar'] . '</td>
+        <td>' . $area_text . '</td>
+        <td>' . $rs['observado_puesto'] . '</td>
+        <td>' . $rs['tiempo_proyecto'] . '</td>
+        <td>' . $rs['horario_observacion'] . '</td>
+        <td>' . $rs['rango_edad'] . '</td>
+        <td>' . date("d/m/Y", strtotime($rs['fecha'])) . '</td>
+        <td>' . date("d/m/Y", strtotime($rs['reg'])) . '</td>
+        <td class="center">' . getObservacion($rs['observacion']) . '</td>
+        <td>' . $observacion_detalle . '</td>    
+        <td>' . $rel . '</td>
+        <td>' . $rs['otros'] . '</td>
+        <td>' . $tip . '</td>
+        <td>' . $con . '</td>
+        <td>' . $rs['descripcion'] . '</td>
+        <td>' . $rs['medidas'] . '</td>
+        <td>' . $pot . '</td>
+        <td class="center">' . $foto . '</td>
+        <td>' . $rs['lesion'] . '</td>
+        <td>' . $rs['obstaculo'] . '</td>
+        <td>' . $observado_cambio . '</td>
+        <td>' . $observado_retroalimentacion . '</td>
+        <td>' . $observado_reincidente . '</td>
+        <td>' . $rs['observado_comentario'] . '</td>
 
-    </tr>';     
+    </tr>';
 
-    $rowaffect--;
+        $rowaffect--;
     }
 
     return $salida;
@@ -851,16 +862,17 @@ function consultTopsNuevo($pdo, $mes, $anio,$sede) {
 
 
 
-function getObservacion($idObservacion){
-    $data='[{"id":"01","state":false,"nombre":"Acto sub estándar "},{"id":"02","state":false,"nombre":"Condición sub estándar"},{"id":"03","state":false,"nombre":"Acto Seguro"}]';
-    $json=json_decode($data,true);
+function getObservacion($idObservacion)
+{
+    $data = '[{"id":"01","state":false,"nombre":"Acto sub estándar "},{"id":"02","state":false,"nombre":"Condición sub estándar"},{"id":"03","state":false,"nombre":"Acto Seguro"}]';
+    $json = json_decode($data, true);
 
-    $name="";
+    $name = "";
 
     foreach ($json as $value) {
-        if($value['id']==$idObservacion){
-            $name=$value['nombre'];
-        }    
+        if ($value['id'] == $idObservacion) {
+            $name = $value['nombre'];
+        }
     }
 
     return $name;
@@ -868,14 +880,14 @@ function getObservacion($idObservacion){
 
 
 
-function consultIpercNuevo($pdo, $mes, $anio,$sede)
+function consultIpercNuevo($pdo, $mes, $anio, $sede)
 {
 
-    
+
     $TODOS_PROYECTOS = 100;
     $sedeSQL = " idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = " idProyecto = '$sede'";
     }
 
@@ -913,24 +925,23 @@ function consultIpercNuevo($pdo, $mes, $anio,$sede)
                     <td>' . $rs['empresa'] . '</td>
                     <td>' . $rs['tipoRiesgo'] . '</td>
                     </tr>';
-
     }
 
     return $salida;
-
 }
 
 
-function consultReporteInspeccionAlmacen($pdo,$mes,$anio,$sede){
+function consultReporteInspeccionAlmacen($pdo, $mes, $anio, $sede)
+{
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
-    try{
+    try {
 
         $query = "SELECT     
         tipo_inspeccion,
@@ -963,12 +974,12 @@ function consultReporteInspeccionAlmacen($pdo,$mes,$anio,$sede){
         $salida     = "";
 
         $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
 
-        foreach($results as $rs ){
-            
+        foreach ($results as $rs) {
+
 
             $evidencia = explode(",", $rs['evidencia']);
 
@@ -978,67 +989,62 @@ function consultReporteInspeccionAlmacen($pdo,$mes,$anio,$sede){
             foreach ($evidencia as $elemento) {
                 if (strlen($elemento) > 0) {
 
-                    if( strpos($elemento, '.pdf') > 0){
+                    if (strpos($elemento, '.pdf') > 0) {
 
-                        $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                        $listaArchivos .= ('<a href="' . CONSTANT('URL') . $elemento . '"> <br>');
                     }
-                    if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+                    if (strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0) {
 
-                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/' . $elemento . '"><br>');
                     }
-                
                 }
             }
 
             $salida .= '<tr>
-            <td>'.$rowaffect.'</td>
-            <td>'.$rs['tipo_inspeccion'].'</td>
-            <td>'.$rs['sede'].'</td>
-            <td>'.$rs['area'].'</td>
-            <td>'.$rs['lugar_inspeccion'].'</td>
-            <td>'.$rs['usuario'].'</td>
-            <td>'.$rs['usuario_responsable'].'</td>
-            <td>'.$rs['fecha'].'</td> 
-            <td>'.$rs['registro'].'</td>
-            <td>'.$rs['tipo_inspeccion_almacen'].'</td>
-            <td>'.valorRespuesta($rs['respuesta']).'</td>
-            <td>'.$rs['condicion'].'</td>
-            <td>'.valorCalificacion($rs['calificacion']).'</td>
-            <td>'.$rs['accion_correctiva'].'</td>
-            <td>'.$rs['usuario_responsable_detalle'].'</td>
-            <td>'.$rs['fecha_cumplimiento'].'</td>
-            <td>'.$rs['seguimiento'].'</td>
-            <td>'.$listaImagenes.$listaArchivos.'</td>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['tipo_inspeccion'] . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['lugar_inspeccion'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['tipo_inspeccion_almacen'] . '</td>
+            <td>' . valorRespuesta($rs['respuesta']) . '</td>
+            <td>' . $rs['condicion'] . '</td>
+            <td>' . valorCalificacion($rs['calificacion']) . '</td>
+            <td>' . $rs['accion_correctiva'] . '</td>
+            <td>' . $rs['usuario_responsable_detalle'] . '</td>
+            <td>' . $rs['fecha_cumplimiento'] . '</td>
+            <td>' . $rs['seguimiento'] . '</td>
+            <td>' . $listaImagenes . $listaArchivos . '</td>
             </tr>';
 
 
             $rowaffect--;
-
         }
 
         return $salida;
-
-   
-    }catch(PDOException $e){
-       echo $e->getMessage();
-       return false;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
     }
-
-
 }
 
 
 
-function consultReporteInspeccionOficina($pdo,$mes,$anio,$sede){
+function consultReporteInspeccionOficina($pdo, $mes, $anio, $sede)
+{
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
-    try{
+    try {
 
         $query = "SELECT     
         tipo_inspeccion,
@@ -1070,12 +1076,12 @@ function consultReporteInspeccionOficina($pdo,$mes,$anio,$sede){
         $salida     = "";
 
         $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
 
-        foreach($results as $rs ){
-            
+        foreach ($results as $rs) {
+
 
             $evidencia = explode(",", $rs['evidencia']);
 
@@ -1085,67 +1091,62 @@ function consultReporteInspeccionOficina($pdo,$mes,$anio,$sede){
             foreach ($evidencia as $elemento) {
                 if (strlen($elemento) > 0) {
 
-                    if( strpos($elemento, '.pdf') > 0){
+                    if (strpos($elemento, '.pdf') > 0) {
 
-                        $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                        $listaArchivos .= ('<a href="' . CONSTANT('URL') . $elemento . '"> <br>');
                     }
-                    if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+                    if (strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0) {
 
-                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/' . $elemento . '"><br>');
                     }
-                
                 }
             }
 
             $salida .= '<tr>
-            <td>'.$rowaffect.'</td>
-            <td>'.$rs['tipo_inspeccion'].'</td>
-            <td>'.$rs['sede'].'</td>
-            <td>'.$rs['area'].'</td>
-            <td>'.$rs['lugar_inspeccion'].'</td>
-            <td>'.$rs['usuario'].'</td>
-            <td>'.$rs['usuario_responsable'].'</td>
-            <td>'.$rs['fecha'].'</td> 
-            <td>'.$rs['registro'].'</td>
-            <td>'.$rs['pregunta'].'</td>
-            <td>'.valorRespuesta($rs['respuesta']).'</td>
-            <td>'.$rs['condicion'].'</td>
-            <td>'.valorCalificacion($rs['calificacion']).'</td>
-            <td>'.$rs['accion_correctiva'].'</td>
-            <td>'.$rs['usuario_responsable_detalle'].'</td>
-            <td>'.$rs['fecha_cumplimiento'].'</td>
-            <td>'.$rs['seguimiento'].'</td>
-            <td>'.$listaImagenes.$listaArchivos.'</td>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['tipo_inspeccion'] . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['lugar_inspeccion'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['pregunta'] . '</td>
+            <td>' . valorRespuesta($rs['respuesta']) . '</td>
+            <td>' . $rs['condicion'] . '</td>
+            <td>' . valorCalificacion($rs['calificacion']) . '</td>
+            <td>' . $rs['accion_correctiva'] . '</td>
+            <td>' . $rs['usuario_responsable_detalle'] . '</td>
+            <td>' . $rs['fecha_cumplimiento'] . '</td>
+            <td>' . $rs['seguimiento'] . '</td>
+            <td>' . $listaImagenes . $listaArchivos . '</td>
             </tr>';
 
 
             $rowaffect--;
-
         }
 
         return $salida;
-
-   
-    }catch(PDOException $e){
-       echo $e->getMessage();
-       return false;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
     }
-
-
 }
 
 
 
-function consultReporteInspeccionBotiquin($pdo,$mes,$anio,$sede){
+function consultReporteInspeccionBotiquin($pdo, $mes, $anio, $sede)
+{
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
-    try{
+    try {
 
         $query = "SELECT     
         tipo_inspeccion,
@@ -1175,12 +1176,12 @@ function consultReporteInspeccionBotiquin($pdo,$mes,$anio,$sede){
         $salida     = "";
 
         $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
 
-        foreach($results as $rs ){
-            
+        foreach ($results as $rs) {
+
 
             $evidencia = explode(",", $rs['evidencia']);
 
@@ -1190,65 +1191,60 @@ function consultReporteInspeccionBotiquin($pdo,$mes,$anio,$sede){
             foreach ($evidencia as $elemento) {
                 if (strlen($elemento) > 0) {
 
-                    if( strpos($elemento, '.pdf') > 0){
+                    if (strpos($elemento, '.pdf') > 0) {
 
-                        $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                        $listaArchivos .= ('<a href="' . CONSTANT('URL') . $elemento . '"> <br>');
                     }
-                    if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+                    if (strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0) {
 
-                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/' . $elemento . '"><br>');
                     }
-                
                 }
             }
 
             $salida .= '<tr>
-            <td>'.$rowaffect.'</td>
-            <td>'.$rs['tipo_inspeccion'].'</td>
-            <td>'.$rs['sede'].'</td>
-            <td>'.$rs['area'].'</td>
-            <td>'.$rs['lugar_inspeccion'].'</td>
-            <td>'.$rs['usuario'].'</td>
-            <td>'.$rs['usuario_responsable'].'</td>
-            <td>'.$rs['fecha'].'</td> 
-            <td>'.$rs['registro'].'</td>
-            <td>'.$rs['ubicacion'].'</td>
-            <td>'.$rs['condicion'].'</td>
-            <td>'.valorCalificacion($rs['clasificacion']).'</td>
-            <td>'.$rs['accion_correctiva'].'</td>
-            <td>'.$rs['usuario_responsable_detalle'].'</td>
-            <td>'.$rs['fecha_cumplimiento'].'</td>
-            <td>'.$rs['seguimiento'].'</td>
-            <td>'.$listaImagenes.$listaArchivos.'</td>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['tipo_inspeccion'] . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['lugar_inspeccion'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['ubicacion'] . '</td>
+            <td>' . $rs['condicion'] . '</td>
+            <td>' . valorCalificacion($rs['clasificacion']) . '</td>
+            <td>' . $rs['accion_correctiva'] . '</td>
+            <td>' . $rs['usuario_responsable_detalle'] . '</td>
+            <td>' . $rs['fecha_cumplimiento'] . '</td>
+            <td>' . $rs['seguimiento'] . '</td>
+            <td>' . $listaImagenes . $listaArchivos . '</td>
             </tr>';
 
 
             $rowaffect--;
-
         }
 
         return $salida;
-
-   
-    }catch(PDOException $e){
-       echo $e->getMessage();
-       return false;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
     }
-
-
 }
 
 
-function consultReporteInspeccionEscalera($pdo,$mes,$anio,$sede){
+function consultReporteInspeccionEscalera($pdo, $mes, $anio, $sede)
+{
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
-    try{
+    try {
 
         $query = "SELECT     
             sede, 
@@ -1273,59 +1269,55 @@ function consultReporteInspeccionEscalera($pdo,$mes,$anio,$sede){
         $salida     = "";
 
         $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
 
-        foreach($results as $rs ){
-            
+        foreach ($results as $rs) {
 
-                        
+
+
 
             $salida .= '<tr>
-            <td>'.$rowaffect.'</td>
-            <td>'.$rs['sede'].'</td>
-            <td>'.$rs['area'].'</td>
-            <td>'.$rs['supervisor'].'</td>
-            <td>'.$rs['empresa'].'</td>
-            <td>'.$rs['inspeccionado'].'</td>
-            <td>'.$rs['fecha'].'</td> 
-            <td>'.$rs['registro'].'</td>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['supervisor'] . '</td>
+            <td>' . $rs['empresa'] . '</td>
+            <td>' . $rs['inspeccionado'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
             
-            <td>'.$rs['codigo'].'</td>
-            <td>'.$rs['tipo_escalera'].'</td>
-            <td>'.$rs['condicion'].'</td>
-            <td>'.$rs['comentario'].'</td>
+            <td>' . $rs['codigo'] . '</td>
+            <td>' . $rs['tipo_escalera'] . '</td>
+            <td>' . $rs['condicion'] . '</td>
+            <td>' . $rs['comentario'] . '</td>
             </tr>';
 
 
             $rowaffect--;
-
         }
 
         return $salida;
-
-   
-    }catch(PDOException $e){
-       echo $e->getMessage();
-       return false;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
     }
-
-    
 }
 
 
 
-function consultReporteInspeccionExtintor($pdo,$mes,$anio,$sede){
+function consultReporteInspeccionExtintor($pdo, $mes, $anio, $sede)
+{
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
-    try{
+    try {
 
         $query = "SELECT     
         tipo_inspeccion,
@@ -1355,12 +1347,12 @@ function consultReporteInspeccionExtintor($pdo,$mes,$anio,$sede){
         $salida     = "";
 
         $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
 
-        foreach($results as $rs ){
-            
+        foreach ($results as $rs) {
+
 
             $evidencia = explode(",", $rs['evidencia']);
 
@@ -1370,64 +1362,60 @@ function consultReporteInspeccionExtintor($pdo,$mes,$anio,$sede){
             foreach ($evidencia as $elemento) {
                 if (strlen($elemento) > 0) {
 
-                    if( strpos($elemento, '.pdf') > 0){
+                    if (strpos($elemento, '.pdf') > 0) {
 
-                        $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                        $listaArchivos .= ('<a href="' . CONSTANT('URL') . $elemento . '"> <br>');
                     }
-                    if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+                    if (strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0) {
 
-                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/' . $elemento . '"><br>');
                     }
-                
                 }
             }
 
             $salida .= '<tr>
-            <td>'.$rowaffect.'</td>
-            <td>'.$rs['tipo_inspeccion'].'</td>
-            <td>'.$rs['sede'].'</td>
-            <td>'.$rs['area'].'</td>
-            <td>'.$rs['lugar_inspeccion'].'</td>
-            <td>'.$rs['usuario'].'</td>
-            <td>'.$rs['usuario_responsable'].'</td>
-            <td>'.$rs['fecha'].'</td> 
-            <td>'.$rs['registro'].'</td>
-            <td>'.$rs['ubicacion'].'</td>
-            <td>'.$rs['condicion'].'</td>
-            <td>'.valorCalificacion($rs['clasificacion']).'</td>
-            <td>'.$rs['accion_correctiva'].'</td>
-            <td>'.$rs['usuario_responsable_detalle'].'</td>
-            <td>'.$rs['fecha_cumplimiento'].'</td>
-            <td>'.$rs['seguimiento'].'</td>
-            <td>'.$listaImagenes.$listaArchivos.'</td>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['tipo_inspeccion'] . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['lugar_inspeccion'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['ubicacion'] . '</td>
+            <td>' . $rs['condicion'] . '</td>
+            <td>' . valorCalificacion($rs['clasificacion']) . '</td>
+            <td>' . $rs['accion_correctiva'] . '</td>
+            <td>' . $rs['usuario_responsable_detalle'] . '</td>
+            <td>' . $rs['fecha_cumplimiento'] . '</td>
+            <td>' . $rs['seguimiento'] . '</td>
+            <td>' . $listaImagenes . $listaArchivos . '</td>
             </tr>';
 
 
             $rowaffect--;
-
         }
 
         return $salida;
-
-   
-    }catch(PDOException $e){
-       echo $e->getMessage();
-       return false;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
     }
-    
 }
 
 
-function consultReporteInspeccionEstacionEmergencia($pdo,$mes,$anio,$sede){
+function consultReporteInspeccionEstacionEmergencia($pdo, $mes, $anio, $sede)
+{
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
-    try{
+    try {
 
         $query = "SELECT     
         tipo_inspeccion,
@@ -1459,13 +1447,13 @@ function consultReporteInspeccionEstacionEmergencia($pdo,$mes,$anio,$sede){
         $salida     = "";
 
         $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
 
-        foreach($results as $rs ){
-            
-            
+        foreach ($results as $rs) {
+
+
 
             $evidencia = explode(",", $rs['evidencia']);
 
@@ -1475,67 +1463,62 @@ function consultReporteInspeccionEstacionEmergencia($pdo,$mes,$anio,$sede){
             foreach ($evidencia as $elemento) {
                 if (strlen($elemento) > 0) {
 
-                    if( strpos($elemento, '.pdf') > 0){
+                    if (strpos($elemento, '.pdf') > 0) {
 
-                        $listaArchivos .= ('<a href="'.CONSTANT('URL').$elemento.'"> <br>');
+                        $listaArchivos .= ('<a href="' . CONSTANT('URL') . $elemento . '"> <br>');
                     }
-                    if( strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0){
+                    if (strpos($elemento, '.jpg') > 0 || strpos($elemento, '.png') > 0) {
 
-                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/'.$elemento.'"><br>');
+                        $listaImagenes .=  ('<img style="height:100px; width:100px;" src="../../ssma/public/photos/' . $elemento . '"><br>');
                     }
-                
                 }
             }
 
             $salida .= '<tr>
-            <td>'.$rowaffect.'</td>
-            <td>'.$rs['tipo_inspeccion'].'</td>
-            <td>'.$rs['sede'].'</td>
-            <td>'.$rs['area'].'</td>
-            <td>'.$rs['lugar_inspeccion'].'</td>
-            <td>'.$rs['estacion'].'</td>
-            <td>'.$rs['usuario'].'</td>
-            <td>'.$rs['usuario_responsable'].'</td>
-            <td>'.$rs['fecha'].'</td> 
-            <td>'.$rs['registro'].'</td>
-            <td>'.$rs['pregunta'].'</td>
-            <td>'.valorCondicion($rs['condicion']).'</td>
-            <td>'.valorCalificacion($rs['clasificacion']).'</td>
-            <td>'.$rs['accion_correctiva'].'</td>
-            <td>'.$rs['usuario_responsable_detalle'].'</td>
-            <td>'.$rs['fecha_cumplimiento'].'</td>
-            <td>'.$rs['seguimiento'].'</td>
-            <td>'.$rs['observacion'].'</td>
-            <td>'.$listaImagenes.$listaArchivos.'</td>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['tipo_inspeccion'] . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['lugar_inspeccion'] . '</td>
+            <td>' . $rs['estacion'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['pregunta'] . '</td>
+            <td>' . valorCondicion($rs['condicion']) . '</td>
+            <td>' . valorCalificacion($rs['clasificacion']) . '</td>
+            <td>' . $rs['accion_correctiva'] . '</td>
+            <td>' . $rs['usuario_responsable_detalle'] . '</td>
+            <td>' . $rs['fecha_cumplimiento'] . '</td>
+            <td>' . $rs['seguimiento'] . '</td>
+            <td>' . $rs['observacion'] . '</td>
+            <td>' . $listaImagenes . $listaArchivos . '</td>
             </tr>';
 
 
             $rowaffect--;
-
         }
         return $salida;
-
-   
-    }catch(PDOException $e){
-       echo $e->getMessage();
-       return false;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
     }
-
-
 }
 
 
-function consultReporteInspeccionTablero($pdo,$mes,$anio,$sede){
+function consultReporteInspeccionTablero($pdo, $mes, $anio, $sede)
+{
 
 
     $TODOS_PROYECTOS = 100;
     $sedeSQL = "idProyecto <> '$sede'";
 
-    if($sede!= $TODOS_PROYECTOS){
+    if ($sede != $TODOS_PROYECTOS) {
         $sedeSQL = "idProyecto = '$sede'";
     }
 
-    try{
+    try {
 
         $query = "SELECT     
         idProyecto,
@@ -1562,41 +1545,240 @@ function consultReporteInspeccionTablero($pdo,$mes,$anio,$sede){
         $salida     = "";
 
         $statement  = $pdo->prepare($query);
-        $statement -> execute(array());
-        $results    = $statement ->fetchAll();
-        $rowaffect 	= $statement->rowCount($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
 
-        foreach($results as $rs ){
-            
+        foreach ($results as $rs) {
+
 
             $salida .= '<tr>
-            <td>'.$rowaffect.'</td>
-            <td>'.$rs['sede'].'</td>
-            <td>'.$rs['area'].'</td>
-            <td>'.$rs['ubicacion'].'</td>
-            <td>'.$rs['codigo_tag'].'</td>
-            <td>'.$rs['aprobado'].'</td>
-            <td>'.$rs['usuario'].'</td>
-            <td>'.$rs['descripcion'].'</td>
-            <td>'.$rs['usuario_responsable'].'</td>
-            <td>'.$rs['fecha'].'</td> 
-            <td>'.$rs['registro'].'</td>
-            <td>'.$rs['elemento'].'</td>
-            <td>'.valorRespuesta($rs['aplica']).'</td>
-            <td>'.valorRespuesta($rs['cumple']).'</td>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['ubicacion'] . '</td>
+            <td>' . $rs['codigo_tag'] . '</td>
+            <td>' . $rs['aprobado'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['descripcion'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['elemento'] . '</td>
+            <td>' . valorRespuesta($rs['aplica']) . '</td>
+            <td>' . valorRespuesta($rs['cumple']) . '</td>
             </tr>';
 
 
             $rowaffect--;
-
         }
         return $salida;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
 
-   
-    }catch(PDOException $e){
-       echo $e->getMessage();
-       return false;
+
+function consultReporteInspeccionTaller($pdo, $mes, $anio, $sede)
+{
+
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "idProyecto <> '$sede'";
+
+    if ($sede != $TODOS_PROYECTOS) {
+        $sedeSQL = "idProyecto = '$sede'";
     }
 
+    try {
 
+        $query = "SELECT     
+    idProyecto,
+    sede,
+    area,
+    lugar,
+    usuario,
+    usuario_responsable,
+    fecha,
+    registro,
+    elemento,
+    calificacion,
+    observacion
+        
+        FROM view_inspeccion_taller
+        WHERE  MONTH(registro) = $mes AND  
+            YEAR(registro) = $anio AND 
+                $sedeSQL
+                   order by registro desc   ";
+
+        $salida     = "";
+
+        $statement  = $pdo->prepare($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
+
+        foreach ($results as $rs) {
+
+
+            $salida .= '<tr>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['lugar'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['elemento'] . '</td>
+            <td>' . $rs['calificacion'] . '</td>
+            <td>' . $rs['observacion'] . '</td>
+            </tr>';
+
+
+            $rowaffect--;
+        }
+        return $salida;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
+
+
+
+function consultReporteGasComprimido($pdo, $mes, $anio, $sede)
+{
+
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "idProyecto <> '$sede'";
+
+    if ($sede != $TODOS_PROYECTOS) {
+        $sedeSQL = "idProyecto = '$sede'";
+    }
+
+    try {
+
+        $query = "SELECT     
+    idProyecto,
+    sede,
+    area,
+    lugar,
+    empresa,
+    usuario,
+    usuario_responsable,
+    fecha,
+    registro,
+    elemento,
+    respuesta,
+    observacion
+        
+        FROM view_gas_comprimido
+        WHERE  MONTH(registro) = $mes AND  
+            YEAR(registro) = $anio AND 
+                $sedeSQL
+                   order by registro desc   ";
+
+        $salida     = "";
+
+        $statement  = $pdo->prepare($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
+
+        foreach ($results as $rs) {
+
+
+            $salida .= '<tr>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['lugar'] . '</td>
+            <td>' . $rs['empresa'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['elemento'] . '</td>
+            <td>' . valorRespuesta($rs['respuesta']) . '</td>
+            <td>' . $rs['observacion'] . '</td>
+            </tr>';
+
+
+            $rowaffect--;
+        }
+        return $salida;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
+
+
+
+function consultReporteProductoQuimico($pdo, $mes, $anio, $sede)
+{
+
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "idProyecto <> '$sede'";
+
+    if ($sede != $TODOS_PROYECTOS) {
+        $sedeSQL = "idProyecto = '$sede'";
+    }
+
+    try {
+
+        $query = "SELECT     
+            idProyecto,
+            sede,
+            area,
+            ubicacion,
+            usuario,
+            usuario_responsable,
+            fecha,
+            registro,
+            elemento,
+            almacen_producto,
+            pit_hidrocarburo,
+            observacion
+        
+        FROM view_producto_quimico
+        WHERE  MONTH(registro) = $mes AND  
+            YEAR(registro) = $anio AND
+                $sedeSQL
+                   order by registro desc   ";
+
+        $salida     = "";
+
+        $statement  = $pdo->prepare($query);
+        $statement->execute(array());
+        $results    = $statement->fetchAll();
+        $rowaffect     = $statement->rowCount($query);
+
+        foreach ($results as $rs) {
+
+
+            $salida .= '<tr>
+            <td>' . $rowaffect . '</td>
+            <td>' . $rs['sede'] . '</td>
+            <td>' . $rs['area'] . '</td>
+            <td>' . $rs['ubicacion'] . '</td>
+            <td>' . $rs['usuario'] . '</td>
+            <td>' . $rs['usuario_responsable'] . '</td>
+            <td>' . $rs['fecha'] . '</td> 
+            <td>' . $rs['registro'] . '</td>
+            <td>' . $rs['elemento'] . '</td>
+            <td>' . $rs['almacen_producto'] . '</td>
+            <td>' . $rs['pit_hidrocarburo'] . '</td>
+            <td>' . $rs['observacion'] . '</td>
+            </tr>';
+
+
+            $rowaffect--;
+        }
+        return $salida;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
 }

@@ -71,6 +71,10 @@ switch ($doc) {
     case 'instalacionElectrica':
         $contenidoOk = consultReporteInstalacionElectrica($pdo, $mes, $anio, $sede);
         break;
+
+    case 'inspeccionDerrame':
+        $contenidoOk = consultReporteInspeccionDerrame($pdo, $mes, $anio, $sede);
+        break;
 }
 
 
@@ -1842,6 +1846,111 @@ function consultReporteInstalacionElectrica($pdo, $mes, $anio, $sede){
             <td>'.$rs['elemento'].'</td>
             <td>'.$rs['estado'].'</td>
             <td>'.$rs['observacion'].'</td>
+            </tr>';
+
+
+            $rowaffect--;
+
+        }
+        return $salida;
+
+   
+    }catch(PDOException $e){
+       echo $e->getMessage();
+       return false;
+    }
+
+
+}
+
+
+
+function consultReporteInspeccionDerrame($pdo, $mes, $anio, $sede){
+
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "idProyecto <> '$sede'";
+
+    if($sede!= $TODOS_PROYECTOS){
+        $sedeSQL = "idProyecto = '$sede'";
+    }
+
+    try{
+
+        $query = "SELECT     
+                    idProyecto,
+                    sede,
+                    area,
+                    usuario,
+                    usuario_responsable,
+                    observacion,
+                    fecha,
+                    registro,
+                    equipo_otros_uno,
+                    cantidad_otros_uno,
+                    equipo_otros_dos,
+                    cantidad_otros_dos,
+                    equipo_otros_tres,
+                    cantidad_otros_tres,
+                    equipo_otros_cuatro,
+                    cantidad_otros_cuatro,
+                    
+                    equipo,
+                    bandeja_contencion ,
+                    panos_absorventes ,
+                    trapo_industrial,
+                    bolsa_plastica,
+                    pala,
+                    pico,
+                    salchicha_absorvente,
+                    bolsa_propileno,
+                    guantes_nitrilo,
+                    respirador_media,
+                    otros_uno ,
+                    otros_dos ,
+                    otros_tres ,
+                    otros_cuatro
+        
+        FROM view_inspeccion_derrame
+        WHERE  MONTH(registro) = $mes AND  
+            YEAR(registro) = $anio AND
+                $sedeSQL
+                   order by registro desc   ";
+
+        $salida     = "";
+
+        $statement  = $pdo->prepare($query);
+        $statement -> execute(array());
+        $results    = $statement ->fetchAll();
+        $rowaffect 	= $statement->rowCount($query);
+
+        foreach($results as $rs ){
+            
+
+            $salida .= '<tr>
+            <td>'.$rowaffect.'</td>
+            <td>'.$rs['sede'].'</td>
+            <td>'.$rs['area'].'</td>
+            <td>'.$rs['usuario'].'</td>
+            <td>'.$rs['usuario_responsable'].'</td>
+            <td>'.$rs['fecha'].'</td> 
+            <td>'.$rs['registro'].'</td>
+            <td>'.$rs['observacion'].'</td>
+
+            <td>'.$rs['equipo'].'</td>
+            <td>'.$rs['bandeja_contencion'].'</td>
+            <td>'.$rs['panos_absorventes'].'</td>
+            <td>'.$rs['trapo_industrial'].'</td>
+            <td>'.$rs['bolsa_plastica'].'</td>
+            <td>'.$rs['pala'].'</td>
+            <td>'.$rs['pico'].'</td>
+            <td>'.$rs['salchicha_absorvente'].'</td>
+            <td>'.$rs['bolsa_propileno'].'</td>
+            <td>'.$rs['guantes_nitrilo'].'</td>
+            <td>'.$rs['respirador_media'].'</td>
+            <td>'.$rs['otros_uno'].'</td>
+            <td>'.$rs['otros_dos'].'</td>
+            <td>'.$rs['otros_tres'].'</td>
+            <td>'.$rs['otros_cuatro'].'</td>
             </tr>';
 
 

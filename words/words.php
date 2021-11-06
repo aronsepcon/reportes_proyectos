@@ -194,9 +194,6 @@
 
         foreach($lista as $elemento){
 
-            echo $elemento['id_riesgo_critico'];  
-            echo $elemento['nombre'];  
-
                 if($elemento['id_riesgo_critico'] == $idRiesgoCritico){
                         array_push($listaRiesgos,$elemento);
                 }

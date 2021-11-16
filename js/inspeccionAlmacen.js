@@ -95,7 +95,6 @@ $(function() {
 
         $.post("../inc/exportIncidenciaAlmacen.inc.php", {"sede" : SEDE ,"fecha_inicio" :FECHA_INICIO , "fecha_fin" :FECHA_FIN},
             function (data, textStatus, jqXHR) {
-
             },
             "json"
         ).always(function() {

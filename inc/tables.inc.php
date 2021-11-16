@@ -208,8 +208,8 @@
 
                 WHERE
                     proyectos.clase = '00' AND 
-                        MONTH(seguridad.fecha) = MONTH(NOW()) AND
-                        YEAR(seguridad.fecha) = YEAR(NOW()) AND $sedeSQL ORDER BY seguridad.fecha DESC";
+                        MONTH(seguridad.reg) = MONTH(NOW()) AND
+                        YEAR(seguridad.reg) = YEAR(NOW()) AND $sedeSQL ORDER BY seguridad.reg DESC";
 
         
         $statement  = $pdo->prepare($query);
@@ -220,7 +220,7 @@
 
 
 
-        $clas = ["","A","B","C"];
+        $clas = ["","A","B","C","",""];
         $item = 1;
 
         foreach($results as $rs){
@@ -759,6 +759,8 @@
         $area = master($pdo,"09");
 
         foreach ($results as $rs) {
+
+            
             $rel = $rs['relacion'] != "00" ? $relac[(int)$rs['relacion']] : "OTROS";
             $tip = $rs['tipepp'] != "00" ? $tipo[(int)$rs['tipepp']] : "";
             $con = $rs['conepp'] != "00" ? $condicion[(int)$rs['conepp']] : "";
@@ -819,6 +821,7 @@
         </tr>';     
 
         $rowaffect--;
+
         }
 
         return $salida;

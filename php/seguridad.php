@@ -82,6 +82,8 @@ $row = repoSeguridad($pdo, $sede);
                         <th width="150px">DIAS DE IMPLEMENTACIÓN</th>
                         <th width="150px">FECHA DE IMPLEMENTACIÓN</th>
                         <th width="150px">RESPONSABLE DE LA EJECUCIÓN</th>
+                        <th width="150px">SEGUIMIENTO</th>
+
                         <th width="180px">EVIDENCIA DE LA ACCIÓN CORRECTIVA IMPLEMENTADA (REGISTRO, IMAGEN O FOTO)</th>
                         <th width="240px">COMENTARIOS ADICIONALES</th>
                     </tr>

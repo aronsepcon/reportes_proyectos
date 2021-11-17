@@ -194,6 +194,7 @@ function consultSafety($pdo, $mes, $anio, $sede)
                     seguridad.reg AS registro,
                     detseguridad.evidencia,
                     proyectos.nombre AS proyecto ,
+                    TIMESTAMPDIFF(DAY, seguridad.fecha , detseguridad.fecha) AS diasImplementacion ,
 
                     seguridad.ubicacion,
                     area_general.nombre AS area_nombre,
@@ -267,9 +268,10 @@ function consultSafety($pdo, $mes, $anio, $sede)
                             <td>' . $listaArchivos . $listaImagenes . '</td>
                             <td>' . $rs['accion'] . '</td>
                             <td class="center">' . $clas[(int)$rs['clasificacion']] . '</td>
-                            <td>' . $rs['seguimiento'] . '</td>
+                            <td>'.$rs['diasImplementacion'].' </td>
                             <td>' . date("d/m/Y", strtotime($rs['fecha'])) . '</td>
                             <td>' . strtoupper($rs['responsable']) . '</td>
+                            <td>'.$rs['seguimiento'].'</td>
                             <td></td>
                             <td></td>
 

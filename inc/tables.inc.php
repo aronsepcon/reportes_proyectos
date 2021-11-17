@@ -192,7 +192,7 @@
                     seguridad.reg AS registro,
                     detseguridad.evidencia,
                     proyectos.nombre AS proyecto ,
-
+                    TIMESTAMPDIFF(DAY, seguridad.fecha , detseguridad.fecha) AS diasImplementacion ,
                     seguridad.ubicacion,
                     area_general.nombre AS area_nombre,
                     tipo_observacion.nombre AS  tipo_observacion
@@ -276,9 +276,10 @@
                             <td>'.$listaArchivos.$listaImagenes.'</td>
                             <td>'.$rs['accion'].'</td>
                             <td class="center">'.$clas[(int)$rs['clasificacion']].'</td>
-                            <td>'.$rs['seguimiento'].'</td>
+                            <td>'.$rs['diasImplementacion'].' </td>
                             <td>'.date("d/m/Y", strtotime($rs['fecha'])).'</td>
                             <td>'.strtoupper($rs['responsable']).'</td>
+                            <td>'.$rs['seguimiento'].'</td>
                             <td></td>
                             <td></td>
                     </tr>';

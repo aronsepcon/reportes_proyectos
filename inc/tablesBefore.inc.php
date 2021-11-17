@@ -191,7 +191,7 @@ function consultSafety($pdo, $mes, $anio, $sede)
                     seguridad.obser01,
                     seguridad.obser02,
                     seguridad.obser03,
-                    seguridad.reg,
+                    seguridad.reg AS registro,
                     detseguridad.evidencia,
                     proyectos.nombre AS proyecto ,
 
@@ -210,8 +210,8 @@ function consultSafety($pdo, $mes, $anio, $sede)
 
                 WHERE
                     proyectos.clase = '00' AND
-                    MONTH(seguridad.fecha) = $mes AND
-                    YEAR(seguridad.fecha) = $anio AND $sedeSQL ORDER BY seguridad.fecha DESC";
+                    MONTH(seguridad.reg) = $mes AND
+                    YEAR((seguridad.reg) = $anio AND $sedeSQL ORDER BY seguridad.reg DESC";
     $statement     = $pdo->prepare($query);
     $statement->execute(array());
     $results     = $statement->fetchAll();
@@ -257,6 +257,7 @@ function consultSafety($pdo, $mes, $anio, $sede)
                             <td>' . $rs['ubicacion'] . '</td>
 
                             <td class="center">' . date("d/m/Y", strtotime($rs['fechaInspeccion'])) . '</td>
+                            <td>'.$rs['registro'].'</td>
                             <td>' . strtoupper($rs['inspeccionado']) . '</td>
                             <td>' . $rs['tipo'] . '</td>
                             

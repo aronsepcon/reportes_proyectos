@@ -189,7 +189,7 @@
                     seguridad.obser01,
                     seguridad.obser02,
                     seguridad.obser03,
-                    seguridad.reg,
+                    seguridad.reg AS registro,
                     detseguridad.evidencia,
                     proyectos.nombre AS proyecto ,
 
@@ -266,6 +266,7 @@
                             <td>'.$rs['ubicacion'].'</td>
 
                             <td class="center">'.date("d/m/Y", strtotime($rs['fechaInspeccion'])).'</td>
+                            <td>'.$rs['registro'].'</td>
                             <td>'.strtoupper($rs['inspeccionado']).'</td>
                             <td>'.$rs['tipo'].'</td>
                             

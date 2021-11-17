@@ -71,6 +71,7 @@ $row = repoSeguridad($pdo, $sede);
                         <th width="140px">ÁREA</th>
                         <th width="140px">UBICAIÓN</th>
                         <th width="90px">FECHA DE LA INSPECCIÓN </th>
+                        <th width="90px">REGISTRO </th>
                         <th width="20px">INSPECCIÓN REALIZADA POR</th>
                         <th width="20px">TIPO DE INSPECCIÓN</th>
                         <th width="140px">TIPO OBERVACIÓN</th>

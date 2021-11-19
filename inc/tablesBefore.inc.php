@@ -782,7 +782,8 @@ function consultTopsNuevo($pdo, $mes, $anio, $sede)
     area_general.nombre AS area_nombre,
     tabla_aquarius.dni AS dni,
     tops.url_pdf AS url_pdf,
-    tops.reg AS registro
+    tops.reg AS registro,
+    seguimiento_aquarius.responsable
             
 
 FROM
@@ -795,7 +796,23 @@ FROM
     JOIN (SELECT ssma.lesion.id,ssma.lesion.nombre FROM ssma.lesion) AS lesion ON ssma.tops.idobservado_lesion = lesion.id
     JOIN (SELECT ssma.obstaculo.id,ssma.obstaculo.nombre FROM ssma.obstaculo) AS obstaculo ON ssma.tops.idobservado_obstaculo = obstaculo.id
     JOIN (SELECT rrhh.tabla_aquarius.usuario,rrhh.tabla_aquarius.apellidos,rrhh.tabla_aquarius.nombres,rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius) AS tabla_aquarius ON ssma.tops.iduser = tabla_aquarius.usuario
+    LEFT JOIN(SELECT 
+                    ssma.seguimiento.iddocumento,
+                    ssma.seguimiento.dni_propietario,
+                    CONCAT(tabla_aquarius.nombres,' ',tabla_aquarius.apellidos) AS responsable
 
+                    FROM ssma.seguimiento JOIN 
+                        (
+                        SELECT 
+                            rrhh.tabla_aquarius.usuario,
+                            rrhh.tabla_aquarius.apellidos,
+                            rrhh.tabla_aquarius.nombres,
+                            rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius
+                        ) 
+                        
+                        AS tabla_aquarius
+                    ON ssma.seguimiento.dni_propietario = tabla_aquarius.dni) AS seguimiento_aquarius
+                    ON ssma.tops.idtop = seguimiento_aquarius.iddocumento
                 
                     WHERE MONTH(tops.reg) = $mes AND
                         YEAR(tops.reg) = $anio AND $sedeSQL

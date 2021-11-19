@@ -131,6 +131,7 @@
             $objPHPExcel->setActiveSheetIndex()->setCellValue('AA5', 'Reincidente');
             $objPHPExcel->setActiveSheetIndex()->setCellValue('AB5', 'Comentario');
             $objPHPExcel->setActiveSheetIndex()->setCellValue('AC5', 'DNI');
+            $objPHPExcel->setActiveSheetIndex()->setCellValue('AD5', 'Responsable');
 
         
 
@@ -178,7 +179,8 @@
         area_general.nombre AS area_nombre,
         tabla_aquarius.dni AS dni,
         tops.url_pdf AS url_pdf,
-        tops.reg AS registro
+        tops.reg AS registro,
+        seguimiento_aquarius.responsable
                 
         
         FROM
@@ -191,8 +193,23 @@
         JOIN (SELECT ssma.lesion.id,ssma.lesion.nombre FROM ssma.lesion) AS lesion ON ssma.tops.idobservado_lesion = lesion.id
         JOIN (SELECT ssma.obstaculo.id,ssma.obstaculo.nombre FROM ssma.obstaculo) AS obstaculo ON ssma.tops.idobservado_obstaculo = obstaculo.id
         JOIN (SELECT rrhh.tabla_aquarius.usuario,rrhh.tabla_aquarius.apellidos,rrhh.tabla_aquarius.nombres,rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius) AS tabla_aquarius ON ssma.tops.iduser = tabla_aquarius.usuario
+        LEFT JOIN(SELECT 
+                        ssma.seguimiento.iddocumento,
+                        ssma.seguimiento.dni_propietario,
+                        CONCAT(tabla_aquarius.nombres,' ',tabla_aquarius.apellidos) AS responsable
         
-        
+                        FROM ssma.seguimiento JOIN 
+                            (
+                            SELECT 
+                                rrhh.tabla_aquarius.usuario,
+                                rrhh.tabla_aquarius.apellidos,
+                                rrhh.tabla_aquarius.nombres,
+                                rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius
+                            ) 
+                            
+                            AS tabla_aquarius
+                        ON ssma.seguimiento.dni_propietario = tabla_aquarius.dni) AS seguimiento_aquarius
+                        ON ssma.tops.idtop = seguimiento_aquarius.iddocumento
                     
                 
                     WHERE MONTH(tops.reg) = $mes AND
@@ -300,6 +317,7 @@
             $objPHPExcel->setActiveSheetIndex()->setCellValue('AA'.$fila,$observado_reincidente);
             $objPHPExcel->setActiveSheetIndex()->setCellValue('AB'.$fila,$rs['observado_comentario']);
             $objPHPExcel->setActiveSheetIndex()->setCellValue('AC'.$fila,$rs['dni']);
+            $objPHPExcel->setActiveSheetIndex()->setCellValue('AD'.$fila,$rs['responsable']);
 
 
 

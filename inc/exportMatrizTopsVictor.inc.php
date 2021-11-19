@@ -339,7 +339,8 @@ tops.observado_comentario AS observado_comentario,
 area_general.nombre AS area_nombre,
 tabla_aquarius.dni AS dni,
 tops.url_pdf AS url_pdf,
-tops.reg AS registro
+tops.reg AS registro,
+seguimiento_aquarius.responsable
         
 
 FROM
@@ -352,7 +353,23 @@ JOIN (SELECT ssma.rango_edad.id,ssma.rango_edad.nombre FROM ssma.rango_edad) AS 
 JOIN (SELECT ssma.lesion.id,ssma.lesion.nombre FROM ssma.lesion) AS lesion ON ssma.tops.idobservado_lesion = lesion.id
 JOIN (SELECT ssma.obstaculo.id,ssma.obstaculo.nombre FROM ssma.obstaculo) AS obstaculo ON ssma.tops.idobservado_obstaculo = obstaculo.id
 JOIN (SELECT rrhh.tabla_aquarius.usuario,rrhh.tabla_aquarius.apellidos,rrhh.tabla_aquarius.nombres,rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius) AS tabla_aquarius ON ssma.tops.iduser = tabla_aquarius.usuario
+LEFT JOIN(SELECT 
+                ssma.seguimiento.iddocumento,
+                ssma.seguimiento.dni_propietario,
+                CONCAT(tabla_aquarius.nombres,' ',tabla_aquarius.apellidos) AS responsable
 
+                FROM ssma.seguimiento JOIN 
+                    (
+                    SELECT 
+                        rrhh.tabla_aquarius.usuario,
+                        rrhh.tabla_aquarius.apellidos,
+                        rrhh.tabla_aquarius.nombres,
+                        rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius
+                    ) 
+                    
+                    AS tabla_aquarius
+                ON ssma.seguimiento.dni_propietario = tabla_aquarius.dni) AS seguimiento_aquarius
+                ON ssma.tops.idtop = seguimiento_aquarius.iddocumento
 
                     WHERE tops.reg >= '$fechaInicio'  AND  tops.reg <  DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND $sedeSQL
                         
@@ -474,7 +491,7 @@ if($rs['potencial']=="03"){
 }
 
 $objPHPExcel->setActiveSheetIndex()->setCellValue('M'.$fila,$rs['medidas']);
-$objPHPExcel->setActiveSheetIndex()->setCellValue('N'.$fila,'');
+$objPHPExcel->setActiveSheetIndex()->setCellValue('N'.$fila,$rs['responsable']);
 $objPHPExcel->setActiveSheetIndex()->setCellValue('O'.$fila,'');
 $objPHPExcel->setActiveSheetIndex()->setCellValue('P'.$fila,'');
 $objPHPExcel->setActiveSheetIndex()->setCellValue('Q'.$fila,'');

@@ -261,6 +261,24 @@
 
         return $valor;
     }
+
+    
+    
+    function valorInspeccionCamilla($calificacion){
+        $valor = "";
+
+        if($calificacion == 1 ){
+            $valor = "√";
+        }
+        if($calificacion == 2 ){
+            $valor = "X";
+        }
+        if($calificacion == 3 ){
+            $valor = "-";
+        }
+
+        return $valor;
+    }
 ?>
 
 

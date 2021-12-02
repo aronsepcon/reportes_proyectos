@@ -75,6 +75,10 @@ switch ($doc) {
     case 'inspeccionDerrame':
         $contenidoOk = consultReporteInspeccionDerrame($pdo, $mes, $anio, $sede);
         break;
+    case 'inspeccionCamilla':
+        $contenidoOk = consultReporteInspeccionCamilla($pdo, $mes, $anio, $sede);
+        break;
+    //
 }
 
 
@@ -1990,6 +1994,105 @@ function consultReporteInspeccionDerrame($pdo, $mes, $anio, $sede){
             <td>'.$rs['otros_dos'].'</td>
             <td>'.$rs['otros_tres'].'</td>
             <td>'.$rs['otros_cuatro'].'</td>
+            </tr>';
+
+
+            $rowaffect--;
+
+        }
+        return $salida;
+
+   
+    }catch(PDOException $e){
+       echo $e->getMessage();
+       return false;
+    }
+
+
+}
+
+
+
+    
+function consultReporteInspeccionCamilla($pdo, $mes, $anio, $sede){
+
+    $TODOS_PROYECTOS = 100;
+    $sedeSQL = "idProyecto <> '$sede'";
+
+    if($sede!= $TODOS_PROYECTOS){
+        $sedeSQL = "idProyecto = '$sede'";
+    }
+
+    try{
+
+        $query = "SELECT     
+            tipo_inspeccion,
+            idProyecto,
+            sede, 
+            area,
+            lugar_inspeccion,
+            usuario,
+            usuario_responsable,
+            fecha,
+            registro,
+            ubicacion,
+            condicion_camilla, 
+            collarin_cervical, 
+            fijador_cabezera, 
+            ubicacion_camilla, 
+            senalizacion_camilla, 
+            ferula_neumatica, 
+            arnes_sujecion, 
+            proteccion_camilla,
+
+            clasificacion,
+            accion_correctiva,
+            fecha_cumplimiento,
+            seguimiento
+            
+            FROM view_inspeccion_camilla
+        WHERE  MONTH(registro) = $mes AND  
+            YEAR(registro) = $anio AND
+                $sedeSQL
+                   order by registro desc   ";
+
+        $salida     = "";
+
+        $statement  = $pdo->prepare($query);
+        $statement -> execute(array());
+        $results    = $statement ->fetchAll();
+        $rowaffect 	= $statement->rowCount($query);
+
+        foreach($results as $rs ){
+
+            $salida .= '<tr>
+            <td>'.$rowaffect.'</td>
+            <td>'.$rs['tipo_inspeccion'].'</td>
+            <td>'.$rs['sede'].'</td>
+            <td>'.$rs['area'].'</td>
+            <td>'.$rs['lugar_inspeccion'].'</td>
+            <td>'.$rs['usuario'].'</td>
+            <td>'.$rs['usuario_responsable'].'</td>
+            <td>'.$rs['fecha'].'</td> 
+            <td>'.$rs['registro'].'</td>
+            <td>'.$rs['ubicacion'].'</td>
+            
+            <td>'.valorInspeccionCamillaTable($rs['condicion_camilla']).'</td>
+            <td>'.valorInspeccionCamillaTable($rs['collarin_cervical']).'</td>
+            <td>'.valorInspeccionCamillaTable($rs['fijador_cabezera']).'</td>
+            <td>'.valorInspeccionCamillaTable($rs['ubicacion_camilla']).'</td>
+            <td>'.valorInspeccionCamillaTable($rs['senalizacion_camilla']).'</td>
+            <td>'.valorInspeccionCamillaTable($rs['ferula_neumatica']).'</td>
+            <td>'.valorInspeccionCamillaTable($rs['arnes_sujecion']).'</td>
+            <td>'.valorInspeccionCamillaTable($rs['proteccion_camilla']).'</td>
+
+
+
+
+            <td>'.valorCalificacionTable($rs['clasificacion']).'</td>
+            <td>'.$rs['accion_correctiva'].'</td>
+            <td>'.$rs['fecha_cumplimiento'].'</td>
+            <td>'.$rs['seguimiento'].'</td>
             </tr>';
 
 

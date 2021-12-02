@@ -64,6 +64,7 @@ $proyectos = proyectos($pdo);
                     <option value="php/ProductoQuimico.php">Inspección almacén de productos químicos</option>
                     <option value="php/instalacionElectrica.php">Instalaciones electricas temporales</option>
                     <option value="php/inspeccionDerrame.php">Inspección de Kit Antiderrame</option>
+                    <option value="php/inspeccionCamilla.php">Inspección de camillas</option>
 
                 </select>
 

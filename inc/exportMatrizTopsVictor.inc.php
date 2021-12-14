@@ -513,8 +513,6 @@ $objPHPExcel->getActiveSheet()->getStyle('B8:R'.$fila)->applyFromArray($borderCe
 
 
 
-
-
 // Renombrar Hoja
 $objPHPExcel->getActiveSheet()->setTitle('Matriz');
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

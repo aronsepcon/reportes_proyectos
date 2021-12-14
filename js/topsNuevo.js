@@ -95,6 +95,14 @@ $(function() {
     });
 
 
+    $("#btnTops").on("click", function(event) {
+        event.preventDefault();
+        window.open('topsNuevoEstadistica.php');
+        console.log('prueba');
+        return false;
+    });
+
+
     
     function downloadEncabezadoTopsNuevoMatriz(event) {
 

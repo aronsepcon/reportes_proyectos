@@ -58,6 +58,7 @@ $proyectos = proyectos($pdo);
 
                 <a href="#" id="btnExport">Exportar a Excel</a>
                 <a href="#" id="btnExportMatriz">Exportar Matriz a Excel</a>
+                <a href="#" id="btnTops">Reporte estadístico</a>
             </div>
         </div>
         <!--</form> -->

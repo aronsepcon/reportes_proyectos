@@ -149,6 +149,13 @@ $(function() {
         return false;
     });
 
+    $("#btnTops").on("click", function(event) {
+        event.preventDefault();
+        window.open('optEstadistica.php');
+        console.log('prueba');
+        return false;
+    });
+
 
     
     function downloadEncabezadoTopsNuevoMatriz(event) {

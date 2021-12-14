@@ -605,12 +605,7 @@
                             <td>'.$rs['oportunidades'].'</td>
                             <td>'.$rs['firma_gerente'].'</td>
                             
-
-                                    
-
                             <td> <button class="getDetail">Detalle </button> </td>
-
-
 
                         </tr>';
 

@@ -27,7 +27,7 @@ $row = getReporteInspeccionBotiquin($pdo, $sede);
     </div>
     <div class="wrap">
         <div class="headerWrap">
-            <h3>Inspección de almacen - <?php echo $_GET['nombre'] ?> </h3>
+            <h3>Inspección de botiquin - <?php echo $_GET['nombre'] ?> </h3>
         </div>
         <div class="divsearch">
             <div class="search">

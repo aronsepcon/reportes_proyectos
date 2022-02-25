@@ -412,7 +412,8 @@
     riesgo_covid4,
     riesgo_covid5,
     riesgo_covid6,
-    riesgo_covid7 FROM view_iperc_nuevo WHERE registro >= '$fechaInicioMatriz'  AND registro < DATE_ADD('$fechaFinMatriz',INTERVAL 1 DAY) AND $sedeSQL  ORDER BY registro DESC ";
+    riesgo_covid7 FROM view_iperc_nuevo 
+    WHERE registro >= '$fechaInicioMatriz'  AND registro < DATE_ADD('$fechaFinMatriz',INTERVAL 1 DAY) AND $sedeSQL  ORDER BY registro DESC ";
 
 $statement  = $pdo->prepare($query);
 $statement -> execute(array());

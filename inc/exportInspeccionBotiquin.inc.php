@@ -13,10 +13,10 @@ $fecha_inicio = $_POST['fecha_inicio'];
 $fecha_fin = $_POST['fecha_fin'];
 
 
-$sedeSQL = "sede <> '$sede'";
+$sedeSQL = "idProyecto <> '$sede'";
 
 if ($sede != $TODOS_PROYECTOS) {
-    $sedeSQL = "sede = '$sede'";
+    $sedeSQL = "idProyecto = '$sede'";
 }
 
 

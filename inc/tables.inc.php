@@ -226,17 +226,6 @@
         foreach($results as $rs){
 
 
-            /*$evidencia = explode(",", $rs['evidencia']);
-
-            $listaArchivos = '';
-
-            foreach ($evidencia as $elemento) {
-                if (strlen($elemento) > 0) {
-                   $listaArchivos .=  ('<a href="'.(constant("URL").'/photos/'.$elemento).'">'.$elemento.'</a> <br>');
-                }
-            }*/
-
-
             $evidencia = explode(",", $rs['evidencia']);
 
             $listaImagenes = '';
@@ -261,17 +250,13 @@
             $salida .= '<tr>
                             <td>'.$rowaffect.'</td>
                             <td>'.$rs['proyecto'].'</td>
-                            
                             <td>'.$rs['area_nombre'].'</td>
                             <td>'.$rs['ubicacion'].'</td>
-
                             <td class="center">'.date("d/m/Y", strtotime($rs['fechaInspeccion'])).'</td>
                             <td>'.$rs['registro'].'</td>
                             <td>'.strtoupper($rs['inspeccionado']).'</td>
                             <td>'.$rs['tipo'].'</td>
-                            
                             <td>'.$rs['tipo_observacion'].'</td>
-
                             <td>'.$rs['condicion'].'</td>
                             <td>'.$listaArchivos.$listaImagenes.'</td>
                             <td>'.$rs['accion'].'</td>
@@ -2235,8 +2220,3 @@ FROM
 
         return $valor;
     }
-
-
-
-
-?>

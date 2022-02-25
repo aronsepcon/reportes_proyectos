@@ -172,6 +172,7 @@
                 incidencias.reg,
                 incidencias.elaborado,
                 incidencias.foto,
+                
                 incidencias.materialmenor,
                 incidencias.materialmayor,
                 incidencias.derramemenor,

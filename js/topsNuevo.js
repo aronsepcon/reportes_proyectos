@@ -222,8 +222,9 @@ $(function() {
         console.log($("#listaPotencial").val());
         console.log(idTopGeneral);
         potenciaGeneral = $("#listaPotencial").val();
+        estado = $("#estadoActivo").val();
 
-        $.post("../inc/editarTops.inc.php", { idTop : idTopGeneral , potencial:$("#listaPotencial").val()},
+        $.post("../inc/editarTops.inc.php", { idTop : idTopGeneral , potencial:$("#listaPotencial").val(),estado:$("#estadoActivo").val()},
         function(data, textStatus, jqXHR) {
 
             $("#formpopup").show();

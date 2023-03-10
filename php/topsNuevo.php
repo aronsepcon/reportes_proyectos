@@ -108,9 +108,10 @@ $proyectos = proyectos($pdo);
                         <th width="120px">Cambio observado</th>
                         <th width="120px">Retroalimentación </th>
                         <th width="120px">Reincidente</th>
+                        <th width="80px">Responsable de la accion</th>
+                        <th width="80px">Estado de la TOP</th>
                         <th width="120px">Comentario</th>
                         <th width="120px">Editar potencial</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -136,12 +137,19 @@ $proyectos = proyectos($pdo);
                             <select id="listaPotencial" name="potencial">
 
                             </select>
+
+                            <h4>¿Esta activo el top?</h4>
+                            <select name="estado" id="estadoActivo">
+                                <option value="0">Activo</option>
+                                <option value="1">Cerrada</option>
+                            </select>
                             <!-- ACTUALIZAMOS EL DOCUMENTO CON EL SUPERVISOR ASIGNADO Y FECHA DE CONTRATO-->
                             <div class="center div-top">
                                 <button class="buttonAdd" type="submit" id="btnUpdateDocumento">Actualizar</button>
                                 <button class="buttonDeletePopup clickPopup-close" type="submit" id="btnUpdateDocumento">Cancelar</button>
 
                             </div>
+
 
                         </form>
 

@@ -697,6 +697,7 @@
         ssma.tops.foto AS foto,
         ssma.tops.iduser AS iduser,
         ssma.tops.sede AS sede,
+        ssma.tops.estadoActivo AS estado,
         ssma.tops.observado_lugar AS observado_lugar,
         ssma.tops.observado_puesto AS observado_puesto,
         ssma.tops.idproyectodetalle AS idproyectodetalle,
@@ -762,6 +763,15 @@
             $con = $rs['conepp'] != "00" ? $condicion[(int)$rs['conepp']] : "";
             $pot = $rs['potencial'] != "00" ? $potencial[(int)$rs['potencial']] : "";
             $area_text = $rs['area'] != "00" ? $area[(int)$rs['area']] : "";
+            if(isset($rs['estado'])){
+                if($rs['estado'] == "1"){
+                    $estado = "Cerrada";
+                }else if($rs['estado'] == "0"){
+                    $estado = "Activo";
+                }
+            }else{
+                $estado = "";
+            }
 
             $observacion_detalle = "";
             if ( $rs['actins'] != "00" ) {
@@ -810,6 +820,8 @@
             <td>'.$observado_cambio.'</td>
             <td>'.$observado_retroalimentacion.'</td>
             <td>'.$observado_reincidente.'</td>
+            <td>'.$rs['responsable'].'</td>
+            <td>'.$estado.'</td>
             <td>'.$rs['observado_comentario'].'</td>
             <td id="button_'.$rs['idtop'].'"> <button  class="editar" value="'.$rs['idtop'].'" potencial="'.$rs['potencial'].'" > editar</button> </td>
 

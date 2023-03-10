@@ -1,0 +1,40 @@
+.contenido_main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+
+select{
+    /*border-color: transparent;*/
+    width: 100%;
+    background: #E9ECF4;
+    margin: 10px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#button_documento{
+    width: 100%;
+    background: #1989FF;
+    color: white;
+    border-color: transparent;
+    height: 40px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.bodyWrap{
+    
+    width: 25%;
+}
+
+@media screen and (max-width: 768px) {
+    .bodyWrap{
+        width: 90%;
+    }
+    
+}

@@ -1,0 +1,120 @@
+.popup .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    display: none;
+}
+
+.popup .content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #fff;
+    width: 40%;
+    height: 200px;
+    z-index: 2;
+    /*text-align: center;
+    padding: 20px;*/
+    padding-top: 20px;
+    /*  box-sizing: border-box;
+    overflow: scroll;*/
+}
+
+.popup .close-btn {
+    cursor: pointer;
+    position: relative;
+    left: 95%;
+    top: 20px;
+    width: 30px;
+    height: 30px;
+    background: #222;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.popup.active .overlay {
+    display: block;
+}
+
+.popup.active .content {
+    transition: all 300ms ease-in;
+    transform: translate(-50%, -50%) scale(1);
+    border-radius: 5px;
+}
+
+.imgPreview {
+    width: 80px;
+    height: 80px;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #1989FF;
+    /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+    align-self: center;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.center.pop-div {
+    margin-bottom: 50px;
+}
+
+
+/*
+
+tops
+*/
+
+.title_general {
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.item_popup {
+    margin-top: 20px;
+}
+
+
+#listaPotencial {
+    width: 30%;
+    height: 30px;
+    size: 16px;
+    border-radius: 8px;
+    padding: 5px;
+    margin: 5px;
+    border-color: #f3f3f3;
+    background: #f3f3f3;
+}
+
+.center{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.content-move{
+
+    margin: 8px;
+}

@@ -2214,7 +2214,28 @@
     function reporteNoConformidadNuevo($pdo,$sede){
         try {
             $lista = "";
-            $sql = "";
+            $sql = "SELECT nc.id,nc.fechaReporte,nc.numAuditoria,
+                        nc.codProyecto,nc.nombReporta,nc.gerencia,
+                        nc.proceso,nc.responsable,nc.normaIso,
+                        nc.docRelacionado,nc.descripcion,nc.disposicion,
+                        nc.fechaCierre,nc.observaciones,nc.fechareg,
+                        d.descripcion,d.responsable,d.fechaLimite,d.evidencia 
+                    FROM no_conformidad AS nc
+                    LEFT JOIN no_conformidad_detalle as d ON d.id_no_conformidad=nc.id ";         
+            $statement 	= $pdo->prepare($sql);
+            $statement -> execute(array());
+            $results 	= $statement ->fetchAll();
+            $rowaffect 	= $statement->rowCount($sql);
+            foreach($results as $rs){
+                $lista .= '<tr>
+                                <td>'.$rs['id'].'</td>
+                                <td>'.$rs['fechaReporte'].'</td>
+                                <td> </td>
+                                <td> </td>
+                                <td>'.$rs['codProyecto'].'</td>
+                                <td>'.$rs['id'].'</td>
+                           </tr>';
+            }
             return $lista;
         } catch (\Throwable $th) {
             //throw $th;

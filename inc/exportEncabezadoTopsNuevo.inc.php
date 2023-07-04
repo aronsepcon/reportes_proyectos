@@ -277,84 +277,64 @@ $objPHPExcel->setActiveSheetIndex()->setCellValue('AD12', 'Responsable');
 //aca iran los datos de la tabla
 $fila = 13;
 
-$query = "SELECT 
-tops.idtop AS idtop,
-tops.lugar AS lugar,
-CONCAT(tabla_aquarius.nombres,' ',tabla_aquarius.apellidos) AS reportado,
-tops.fecha AS fecha,
-tops.observacion AS observacion,
-tops.actins AS actins,
-tops.conins AS conins,
-tops.actseg AS actseg,
-tops.relacion AS relacion,
-tops.descripcion AS descripcion,
-tops.medidas AS medidas,
-tops.potencial AS potencial,
-tops.reg AS reg,
-tops.conepp AS conepp,
-tops.tipepp AS tipepp,
-tops.otros AS otros,
-tops.area AS area,
-tops.foto AS foto,
-tops.iduser AS iduser,
-tops.sede AS sede,
-tops.observado_lugar AS observado_lugar,
-tops.observado_puesto AS observado_puesto,
-tops.idproyectodetalle AS idproyectodetalle,
-tiempo_proyecto.id AS idobservado_tiempo,
-tiempo_proyecto.nombre AS tiempo_proyecto,
-horario_observacion.id AS idobservado_hora,
-horario_observacion.nombre AS horario_observacion,
-rango_edad.id AS idobservado_edad,
-rango_edad.nombre AS rango_edad,
-lesion.id AS idobservado_lesion,
-lesion.nombre AS lesion,
-obstaculo.id AS idobservado_obstaculo,
-obstaculo.nombre AS obstaculo,
-tops.observado_cambio AS observado_cambio,
-tops.observado_retroalimentacion AS observado_retroalimentacion,
-tops.observado_reincidente AS observado_reincidente,
-tops.observado_comentario AS observado_comentario,
-area_general.nombre AS area_nombre,
-tabla_aquarius.dni AS dni,
-tops.url_pdf AS url_pdf,
-tops.reg AS registro,
-seguimiento_aquarius.responsable
-        
-
+$query = "SELECT
+ssma.tops.idtop AS idtop,
+ssma.tops.lugar AS lugar,
+ssma.tops.fecha AS fecha,
+ssma.tops.observacion AS observacion,
+ssma.tops.actins AS actins,
+ssma.tops.conins AS conins,
+ssma.tops.actseg AS actseg,
+ssma.tops.relacion AS relacion,
+ssma.tops.descripcion AS descripcion,
+ssma.tops.medidas AS medidas,
+ssma.tops.potencial AS potencial,
+ssma.tops.reg AS reg,
+ssma.tops.conepp AS conepp,
+ssma.tops.tipepp AS tipepp,
+ssma.tops.otros AS otros,
+ssma.tops.area AS area,
+ssma.tops.foto AS foto,
+ssma.tops.iduser AS iduser,
+ssma.tops.sede AS sede,
+ssma.tops.observado_lugar AS observado_lugar,
+ssma.tops.observado_puesto AS observado_puesto,
+ssma.tops.idproyectodetalle AS idproyectodetalle,
+ssma.tops.observado_cambio AS observado_cambio,
+ssma.tops.observado_retroalimentacion AS observado_retroalimentacion,
+ssma.tops.observado_reincidente AS observado_reincidente,
+ssma.tops.observado_comentario AS observado_comentario,
+ssma.tops.url_pdf AS url_pdf,
+ssma.tops.reg AS registro,
+CONCAT( tabla_aquarius.nombres, ' ', tabla_aquarius.apellidos ) AS reportado,
+tabla_aquarius.dni AS dni_reportado,
+ssma.area_general.nombre AS area_nombre,
+ssma.tiempo_proyecto.nombre AS tiempo_proyecto,
+ssma.horario_observacion.nombre AS horario_observacion,
+ssma.rango_edad.nombre AS rango_edad,
+ssma.lesion.nombre AS lesion,
+ssma.obstaculo.nombre AS obstaculo,
+ssma.seguimiento.id,
+ssma.seguimiento.dni_propietario,
+CONCAT( seguimiento_aquarius.nombres, ' ', seguimiento_aquarius.apellidos ) AS responsable 
 FROM
 ssma.tops
-
-JOIN (SELECT ssma.area_general.id,ssma.area_general.nombre FROM ssma.area_general) AS area_general ON ssma.tops.idproyectodetalle = area_general.id
-JOIN (SELECT ssma.tiempo_proyecto.id,ssma.tiempo_proyecto.nombre FROM ssma.tiempo_proyecto) AS tiempo_proyecto ON ssma.tops.idobservado_tiempo = tiempo_proyecto.id
-JOIN (SELECT ssma.horario_observacion.id,ssma.horario_observacion.nombre FROM ssma.horario_observacion) AS horario_observacion ON ssma.tops.idobservado_hora = horario_observacion.id
-JOIN (SELECT ssma.rango_edad.id,ssma.rango_edad.nombre FROM ssma.rango_edad) AS rango_edad ON ssma.tops.idobservado_edad = rango_edad.id
-JOIN (SELECT ssma.lesion.id,ssma.lesion.nombre FROM ssma.lesion) AS lesion ON ssma.tops.idobservado_lesion = lesion.id
-JOIN (SELECT ssma.obstaculo.id,ssma.obstaculo.nombre FROM ssma.obstaculo) AS obstaculo ON ssma.tops.idobservado_obstaculo = obstaculo.id
-JOIN (SELECT rrhh.tabla_aquarius.usuario,rrhh.tabla_aquarius.apellidos,rrhh.tabla_aquarius.nombres,rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius) AS tabla_aquarius ON ssma.tops.iduser = tabla_aquarius.usuario
-LEFT JOIN(SELECT 
-                ssma.seguimiento.iddocumento,
-                ssma.seguimiento.dni_propietario,
-                CONCAT(tabla_aquarius.nombres,' ',tabla_aquarius.apellidos) AS responsable
-
-                FROM ssma.seguimiento JOIN 
-                    (
-                    SELECT 
-                        rrhh.tabla_aquarius.usuario,
-                        rrhh.tabla_aquarius.apellidos,
-                        rrhh.tabla_aquarius.nombres,
-                        rrhh.tabla_aquarius.dni FROM rrhh.tabla_aquarius
-                    ) 
-                    
-                    AS tabla_aquarius
-                ON ssma.seguimiento.dni_propietario = tabla_aquarius.dni) AS seguimiento_aquarius
-                ON ssma.tops.idtop = seguimiento_aquarius.iddocumento
-            
-        
-
-                    WHERE tops.reg >= '$fechaInicio'  AND  tops.reg <  DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND $sedeSQL
-                        ORDER BY
-                        tops.reg DESC";
+LEFT JOIN rrhh.tabla_aquarius ON ssma.tops.iduser = rrhh.tabla_aquarius.usuario
+LEFT JOIN ssma.area_general ON ssma.tops.idproyectodetalle = ssma.area_general.id
+LEFT JOIN ssma.tiempo_proyecto ON ssma.tops.idobservado_tiempo = ssma.tiempo_proyecto.id
+LEFT JOIN ssma.horario_observacion ON ssma.tops.idobservado_hora = ssma.horario_observacion.id
+LEFT JOIN ssma.rango_edad ON ssma.tops.idobservado_edad = ssma.rango_edad.id
+LEFT JOIN ssma.lesion ON ssma.tops.idobservado_lesion = ssma.lesion.id
+LEFT JOIN ssma.obstaculo ON ssma.tops.idobservado_obstaculo = ssma.obstaculo.id
+LEFT JOIN ssma.seguimiento ON ssma.tops.idtop = ssma.seguimiento.iddocumento
+LEFT JOIN rrhh.tabla_aquarius AS seguimiento_aquarius ON ssma.seguimiento.dni_propietario = seguimiento_aquarius.dni 
+WHERE
+tops.reg BETWEEN '$fechaInicio' 
+AND DATE_ADD('$fechaFin',INTERVAL 1 DAY) 
+AND $sedeSQL 
+GROUP BY ssma.tops.DESCRIPCION
+ORDER BY
+tops.reg DESC";
 
 $statement = $pdo->prepare($query);
 $statement->execute(array());
@@ -449,7 +429,7 @@ foreach ($results as $rs) {
     $objPHPExcel->setActiveSheetIndex()->setCellValue('Y' . $fila, $observado_cambio);
     $objPHPExcel->setActiveSheetIndex()->setCellValue('Z' . $fila, $observado_reincidente);
     $objPHPExcel->setActiveSheetIndex()->setCellValue('AA' . $fila, $rs['observado_comentario']);
-    $objPHPExcel->setActiveSheetIndex()->setCellValue('AB' . $fila,$rs['dni'] );
+    $objPHPExcel->setActiveSheetIndex()->setCellValue('AB' . $fila,$rs['dni_reportado'] );
     $objPHPExcel->setActiveSheetIndex()->setCellValue('AC'.$fila,date("d/m/Y", strtotime($rs['reg'])));
     $objPHPExcel->setActiveSheetIndex()->setCellValue('AD'.$fila,$rs['responsable']);
 

@@ -5,9 +5,9 @@ require_once("constantes.inc.php");
 
 $idTop = $_POST['idTop'];
 $potencial = $_POST['potencial'];
+$estado = $_POST['estado'];
 
-
-$query = "UPDATE tops SET potencial = '$potencial' WHERE idtop = '$idTop'";
+$query = "UPDATE tops SET potencial = '$potencial',estadoActivo='$estado' WHERE idtop = '$idTop'";
 
 $statement     = $pdo->prepare($query);
 $statement->execute(array());

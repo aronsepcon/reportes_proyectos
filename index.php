@@ -20,8 +20,7 @@ $proyectos = proyectos($pdo);
    <!-- <link rel="stylesheet" href="css/style.css?v1.0.5">-->
     <link rel="stylesheet" href="css/main.css?v1.0.6">
 
-    <script src="js/jquery.js"></script>
-    <script src="js/main.js?<?php echo constant("VERSION") ?>"></script>
+
 
     <title>Reportes SSMA</title>
 </head>
@@ -75,6 +74,7 @@ $proyectos = proyectos($pdo);
         </div>
 
     </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/main.js?<?php echo constant("VERSION") ?>"></script>
 </body>
-
 </html>

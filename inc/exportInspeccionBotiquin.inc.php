@@ -196,7 +196,7 @@ $objPHPExcel->setActiveSheetIndex()->setCellValue('D2', 'Reporte de Inspección 
 //FECHA Y REVISION DEL DOCUMENTO
 $objPHPExcel->getActiveSheet()->getRowDimension('2')->setRowHeight(60);
 $objPHPExcel->getActiveSheet()->mergeCells('P2:S3');
-$objPHPExcel->setActiveSheetIndex()->setCellValue('P2', "Código: \n Revisión:0 \n Emisión:13/06/2021 \n Página: 1 de 1 ");
+$objPHPExcel->setActiveSheetIndex()->setCellValue('P2', "Código: \n Revisión:0 \n Emisión: \n Página: 1 de 1 ");
 
 
 // =====================================CABECERA 2 DEL EXCEL ===================================================
@@ -209,7 +209,7 @@ $objPHPExcel->getActiveSheet()->getStyle('B5')->applyFromArray($TituloTabla);
 $objPHPExcel->setActiveSheetIndex()->setCellValue('B5', 'SEDE/PROYECTO:');
 
 $objPHPExcel->getActiveSheet()->mergeCells('D5:G5');
-$objPHPExcel->setActiveSheetIndex()->setCellValue('D5', 'HUDBAY/PROYECTO 20PP03 - NUEVA LÍNEA DE RELAVES ESTE - TMF');
+$objPHPExcel->setActiveSheetIndex()->setCellValue('D5', '');
 
 $objPHPExcel->getActiveSheet()->mergeCells('B6:C6');
 $objPHPExcel->getActiveSheet()->getStyle('B6')->applyFromArray($TituloTabla);

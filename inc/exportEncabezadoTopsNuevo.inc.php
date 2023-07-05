@@ -440,9 +440,11 @@ foreach ($results as $rs) {
 
 // Bordes para todos las celdas que contengan informacion acerca del reporte
 $objPHPExcel->getActiveSheet()->getStyle('B12:AB'.$fila)->applyFromArray($borderCellAll);
-
+$archivo = time();
 // Renombrar Hoja
 $objPHPExcel->getActiveSheet()->setTitle('Matriz de Tops');
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-$objWriter->save('../reports/topsnuevo.xlsx');
-exit();
+$objWriter->save('../reports/topsnuevo_'.$archivo.'.xlsx');
+echo $archivo;
+//return json_encode($lista);
+//exit();

@@ -63,20 +63,27 @@ $(function() {
 
         $.post("../inc/exportEncabezadoTopsNuevo.inc.php", {"sede" : SEDE ,"fecha_inicio" :FECHA_INICIO , "fecha_fin" :FECHA_FIN},
             function (data, textStatus, jqXHR) {
-
                 console.log(data);
 
+                if(textStatus=="success"){
+                    var url = "../reports/topsnuevo_"+data+".xlsx";
+                    console.log(url);
+                    event.preventDefault();
+                    window.location.href = url;
+        
+                    $('.modal').css('opacity', '0');
+                    $('.modal').css('z-index', '-1');
+                }
             },
             "json"
-        ).always(function() {
-            //papa descargar el archivo 
-            var url = "../reports/topsnuevo.xlsx";
-            event.preventDefault();
-            window.location.href = url;
-
+        ).fail(function(){
+            alert("No se pudo generar el documento");
             $('.modal').css('opacity', '0');
             $('.modal').css('z-index', '-1');
-        });
+        })/*.always(function() {
+            //para descargar el archivo 
+           
+        })*/;
 
     }
 
